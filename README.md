@@ -133,3 +133,40 @@ Learn more about the power of Turborepo:
 - [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
 - [Configuration Options](https://turborepo.dev/docs/reference/configuration)
 - [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+
+
+## 🧠 O Tipo `vector`: Por que a dimensão importa?
+
+O campo de embedding não é apenas uma coluna de dados comum; ele armazena a identidade semântica do seu conteúdo em um espaço multidimensional. No `PostgreSQL`, através da extensão `pgvector`, definir explicitamente o tamanho desse vetor (ex: **vector(n)**) é uma prática fundamental por três pilares principais:
+
+#### 🚀 1. Performance e Indexação (O Fator Crítico)
+
+Para que a busca por similaridade seja eficiente em larga escala, o uso de índices especializados como `HNSW` ou `IVFFlat` é obrigatório.
+
+- **Estrutura Matemática**: O `pgvector` exige dimensões fixas para construir esses índices. O algoritmo organiza os vetores como pontos em um gráfico complexo; se a dimensão não é definida, o banco não consegue mapear esse espaço.
+- **Busca Inteligente vs. Busca Bruta**: Sem um índice (que depende do tamanho fixo), o banco é forçado a realizar um *Sequential Scan*. Isso significa que ele calculará a distância entre sua busca e cada registro da tabela, tornando a aplicação inviável conforme o volume de dados cresce.
+
+#### 🛡️ 2. Integridade e Consistência dos Dados
+
+Diferente de um campo de texto flexível, operações matemáticas entre vetores exigem que ambos tenham o mesmo comprimento.
+
+- **Validação Nativa**: Ao definir **vector(n)**, o `PostgreSQL` atua como um "guardião", impedindo que vetores corrompidos ou de modelos diferentes sejam inseridos acidentalmente.
+- **Segurança em Runtime**: Isso evita erros de execução em tempo de busca (*mismatch errors*), garantindo que todos os dados na coluna sigam o mesmo padrão geométrico.
+
+#### 📦 3. Otimização de Armazenamento e I/O
+
+Saber o tamanho exato permite que o motor do banco de dados otimize a alocação de páginas de memória e o armazenamento em disco.
+
+- **Eficiência de Baixo Nível**: O banco consegue prever o payload exato de cada registro, melhorando a velocidade de leitura e escrita (I/O) e otimizando o cache de memória.
+
+### ⚠️ Acoplamento com o Modelo de IA
+
+É importante notar que o tamanho do vetor é intrinsecamente ligado ao modelo de *embedding* escolhido, veja alguns exemplos de modelos abaixo:
+
+| Modelo                         | Provedor       | Dimensão (Size) |
+|--------------------------------|----------------|-----------------|
+| granite-embedding-multilingual | IBM / Local    | 768             |
+| text-embedding-3-small         | OpenAI         | 1536            |
+| nomic-embed-text               | Nomic / Ollama | 768             |
+
+> **Nota de Arquitetura**: Como os vetores de modelos diferentes não são compatíveis entre si, qualquer troca de modelo de IA exigirá uma nova migration no banco e a re-geração (re-indexação) de todos os embeddings existentes.

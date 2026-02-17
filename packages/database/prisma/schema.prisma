@@ -26,5 +26,5 @@ model Document {
   content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  embedding Unsupported("vector")
+  embedding Unsupported("vector(768)")
 }
