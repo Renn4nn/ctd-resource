@@ -29,7 +29,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@repo/config": "workspace:^",
     "@repo/typescript-config": "workspace:^",
     "@types/node": "^25.0.9",
     "@types/pg": "^8.16.0",
@@ -39,6 +38,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@repo/config": "workspace:^",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "dotenv": "^17.2.3",
