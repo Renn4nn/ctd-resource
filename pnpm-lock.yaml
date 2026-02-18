@@ -221,6 +221,9 @@ importers:
       '@prisma/client':
         specifier: ^7.2.0
         version: 7.2.0(prisma@7.2.0(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3))(typescript@5.9.3)
+      '@repo/config':
+        specifier: workspace:^
+        version: link:../config
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -228,9 +231,6 @@ importers:
         specifier: ^8.17.1
         version: 8.17.1
     devDependencies:
-      '@repo/config':
-        specifier: workspace:^
-        version: link:../config
       '@repo/typescript-config':
         specifier: workspace:^
         version: link:../typescript-config
