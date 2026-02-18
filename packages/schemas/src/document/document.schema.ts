@@ -5,7 +5,7 @@ import type { ApiSuccessResponse } from '../api/api.response.types.js'
 export const createDocumentSchema = z.strictObject({
 	title: z.string().trim().nonempty().max(50),
 	content: z.string().trim()
-}) satisfies z.ZodType<Prisma.DocumentCreateInput>
+}) satisfies z.ZodType<Pick<Prisma.DocumentModel, 'title' | 'content'>>
 
 export const updateDocumentSchema = createDocumentSchema.partial()
 

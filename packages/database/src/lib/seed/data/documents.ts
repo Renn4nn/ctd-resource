@@ -1,9 +1,10 @@
 import type { Prisma } from '../../../generated/prisma/client.js'
 
-export const seedDocuments: Prisma.DocumentCreateInput[] = [
-	{
-		title: 'Guia do Desenvolvedor (CTD)',
-		content: `Este guia existe para padronizar o ambiente e deixar o onboarding previsível.
+export const seedDocuments: Pick<Prisma.DocumentModel, 'title' | 'content'>[] =
+	[
+		{
+			title: 'Guia do Desenvolvedor (CTD)',
+			content: `Este guia existe para padronizar o ambiente e deixar o onboarding previsível.
 
 ## O que você vai encontrar aqui
 
@@ -27,10 +28,10 @@ pnpm dev
 \`\`\`
 
 Se algo falhar, volte no guia “Ambiente Local e Monorepo”.`
-	},
-	{
-		title: 'Ambiente Local e Monorepo (Node + PNPM + Turbo)',
-		content: `## Pré-requisitos
+		},
+		{
+			title: 'Ambiente Local e Monorepo (Node + PNPM + Turbo)',
+			content: `## Pré-requisitos
 
 - Node.js (recomendado >= 18)
 - PNPM (o repo declara \`pnpm@9\`)
@@ -92,10 +93,10 @@ pnpm --filter <nome-do-pacote> dev
 - Node antigo: atualize e reinstale dependências
 - \`pnpm\` não encontrado: instale e confirme \`pnpm -v\`
 - Cache/estado estranho: rode \`pnpm install\` novamente`
-	},
-	{
-		title: 'Git, Pull Requests e Commits',
-		content: `## Git (controle de versão)
+		},
+		{
+			title: 'Git, Pull Requests e Commits',
+			content: `## Git (controle de versão)
 
 Git resolve:
 
@@ -136,10 +137,10 @@ pnpm commit
 \`\`\`
 
 Dica: mantenha mensagens curtas e descritivas, e evite “update”, “fix stuff”.`
-	},
-	{
-		title: 'Qualidade e Padrões de Código (Biome + TypeScript)',
-		content: `## Objetivo
+		},
+		{
+			title: 'Qualidade e Padrões de Código (Biome + TypeScript)',
+			content: `## Objetivo
 
 Qualidade aqui significa:
 
@@ -187,10 +188,10 @@ pnpm check-types
 Docs:
 
 - https://www.typescriptlang.org/docs/`
-	},
-	{
-		title: 'Infraestrutura e Dados (Docker + PostgreSQL + Prisma)',
-		content: `## Docker (padronização de ambiente)
+		},
+		{
+			title: 'Infraestrutura e Dados (Docker + PostgreSQL + Prisma)',
+			content: `## Docker (padronização de ambiente)
 
 Docker ajuda a evitar:
 
@@ -245,10 +246,10 @@ pnpm --filter @repo/database exec prisma studio
 Link:
 
 - https://docs.nestjs.com/recipes/prisma#set-up-prisma`
-	},
-	{
-		title: 'Front-end (Web + Mobile)',
-		content: `## Web (Next.js)
+		},
+		{
+			title: 'Front-end (Web + Mobile)',
+			content: `## Web (Next.js)
 
 Next.js é o framework React para web, com foco em:
 
@@ -288,10 +289,10 @@ app/
 Docs:
 
 - https://docs.expo.dev/router/introduction/`
-	},
-	{
-		title: 'Back-end e APIs (Nest + Swagger)',
-		content: `## Nest.js (arquitetura)
+		},
+		{
+			title: 'Back-end e APIs (Nest + Swagger)',
+			content: `## Nest.js (arquitetura)
 
 Nest é modular por padrão.
 
@@ -325,5 +326,5 @@ Acesso (quando a API estiver rodando):
 Docs:
 
 - https://docs.nestjs.com/openapi/introduction`
-	}
-]
+		}
+	]
