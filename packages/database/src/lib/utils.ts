@@ -1,4 +1,4 @@
-import type { EmbeddingResponse } from '@repo/config'
+import { type EmbeddingResponse, embeddingEnvSchema } from '@repo/config'
 import type { Prisma, PrismaClient } from '../generated/prisma/client.js'
 
 type SeedDatabaseParams = {
@@ -74,21 +74,27 @@ export async function cleanDatabase(
 	}
 }
 
-export async function embedding(input: string): Promise<string> {
-	const res = await fetch(
-		'http://localhost:12434/engines/llama.cpp/v1/embeddings',
-		{
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				model: 'granite-embedding-multilingual',
-				input
-			})
-		}
-	)
+export async function embedding(prompt: string): Promise<string> {
+	const { EMBEDDING_URL, EMBEDDING_MODEL_NAME, EMBEDDING_DIMENSIONS } =
+		embeddingEnvSchema.parse(process.env)
+
+	const res = await fetch(EMBEDDING_URL, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			model: EMBEDDING_MODEL_NAME,
+			prompt
+		})
+	})
 
 	const resJson = (await res.json()) as EmbeddingResponse
-	const vetor = resJson.data
+	const vetor = resJson.embedding
 
-	return 'teste'
+	if (vetor.length !== EMBEDDING_DIMENSIONS)
+		throw new Error(
+			`EMBEDDING_DIMENSIONS incompatível: esperado
+				${EMBEDDING_DIMENSIONS} recebido ${vetor.length}`
+		)
+
+	return `[${vetor.join(',')}]`
 }

@@ -1,6 +1,7 @@
 import { z } from '../zod/index.js'
 
 const nodeEnv = z.literal(['development', 'production', 'test'])
+export type NodeEnv = z.infer<typeof nodeEnv>
 
 export const transformDatabaseUrl = z
 	.object({
@@ -32,4 +33,11 @@ export const apiEnvSchema = z.object({
 
 export type ApiEnvDtoInput = z.input<typeof apiEnvSchema>
 export type ApiEnvDtoOutput = z.output<typeof apiEnvSchema>
-export type NodeEnv = z.infer<typeof nodeEnv>
+
+export const embeddingEnvSchema = z.object({
+	EMBEDDING_URL: z.string(),
+	EMBEDDING_MODEL_NAME: z.string(),
+	EMBEDDING_DIMENSIONS: z.coerce.number()
+})
+
+export type EmbeddingEnv = z.infer<typeof embeddingEnvSchema>

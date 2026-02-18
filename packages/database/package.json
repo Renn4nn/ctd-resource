@@ -21,8 +21,8 @@
     "db:deploy": "prisma migrate deploy",
     "db:migrate": "dotenv -e ../../.env.database.development -- prisma migrate dev",
     "db:reset:dev": "dotenv -e ../../.env.database.development -- prisma migrate reset",
-    "db:seed:dev": "dotenv -e ../../.env.database.development -- prisma db seed",
-    "db:seed:test": "dotenv -e ../../.env.database.test -- prisma db seed",
+    "db:seed:dev": "dotenv -e ../../.env.database.development -e ../../.env.embedding.development -- prisma db seed",
+    "db:seed:test": "dotenv -e ../../.env.database.test -e ../../.env.embedding.test -- prisma db seed",
     "db:deploy:test": "dotenv -e ../../.env.database.test -- prisma migrate deploy"
   },
   "keywords": [],
