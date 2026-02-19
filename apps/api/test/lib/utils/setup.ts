@@ -4,6 +4,7 @@ import { HttpAdapterHost } from '@nestjs/core'
 import { Test } from '@nestjs/testing'
 import {
 	cleanDatabase,
+	EmbeddingParams,
 	ExtendedPrismaClient,
 	seedDatabase,
 	seedDocuments,
@@ -38,7 +39,10 @@ export async function createApp(): Promise<INestApplication> {
 	return app
 }
 
-async function setupDatabase(prisma: ExtendedPrismaClient): Promise<void> {
+async function setupDatabase(
+	prisma: ExtendedPrismaClient,
+	embeddingParams: Omit<EmbeddingParams, 'prompt'>
+): Promise<void> {
 	await seedDatabase({
 		prisma,
 		models: {
@@ -53,19 +57,27 @@ async function setupDatabase(prisma: ExtendedPrismaClient): Promise<void> {
 			}
 			// biome-ignore-end lint/suspicious/noExplicitAny: Required
 		},
+		embeddingParams,
 		log: false
 	})
 }
 
 export async function setupTestEnvironment(): Promise<INestApplication> {
 	const app = await createApp()
-	const schema = app.get(ConfigService).getOrThrow('POSTGRES_DB_SCHEMA')
+
+	const configService = app.get(ConfigService)
+
+	const embeddingParams: Omit<EmbeddingParams, 'prompt'> = {
+		url: configService.getOrThrow('EMBEDDING_URL'),
+		model: configService.getOrThrow('EMBEDDING_MODEL_NAME'),
+		dimensions: configService.getOrThrow('EMBEDDING_DIMENSIONS')
+	}
 
 	const prismaService = app.get<CustomPrismaClient>('PrismaService')
 	const prisma = prismaService.client
 
-	await cleanDatabase(prisma, schema, false)
-	await setupDatabase(prisma)
+	await cleanDatabase(prisma, false)
+	await setupDatabase(prisma, embeddingParams)
 
 	return app
 }

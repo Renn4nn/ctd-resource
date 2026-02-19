@@ -62,11 +62,8 @@ export const documentExtension = Prisma.defineExtension((client) => {
 	})
 })
 
-export function extendPrismaClientFactory(
-	connectionString: string,
-	schema: string
-) {
-	const adapter = new PrismaPg({ connectionString }, { schema })
+export function extendPrismaClientFactory(connectionString: string) {
+	const adapter = new PrismaPg({ connectionString })
 	return new PrismaClient({ adapter }).$extends(documentExtension)
 }
 

@@ -4,7 +4,6 @@ import { seedDocuments, seedUsers } from '../src/lib/seed/data'
 import { type EmbeddingParams, seedDatabase } from '../src/lib/utils'
 
 const connectionString = transformDatabaseUrl.parse(process.env)
-const schema = process.env.POSTGRES_DB_SCHEMA || 'public'
 const parseResult = embeddingEnvSchema.parse(process.env)
 const embeddingParams: Omit<EmbeddingParams, 'prompt'> = {
 	url: parseResult.EMBEDDING_URL,
@@ -12,7 +11,7 @@ const embeddingParams: Omit<EmbeddingParams, 'prompt'> = {
 	dimensions: parseResult.EMBEDDING_DIMENSIONS
 }
 
-const extendedPrisma = extendPrismaClientFactory(connectionString, schema)
+const extendedPrisma = extendPrismaClientFactory(connectionString)
 
 async function main() {
 	await seedDatabase({

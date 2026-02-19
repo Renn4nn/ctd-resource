@@ -103,30 +103,29 @@ export async function seedDatabase({
 
 export async function cleanDatabase(
 	prisma: ExtendedPrismaClient,
-	schema: string,
 	log: boolean = true
 ): Promise<void> {
 	const models = await prisma.$queryRaw<Array<{ tablename: string }>>`
 	SELECT tablename FROM pg_tables
-	WHERE schemaname = ${schema}
+	WHERE schemaname = 'public'
 	AND tablename != '_prisma_migrations';
   `
 
 	if (models.length === 0) {
-		console.warn(`⚠️ Aviso: Nenhuma tabela encontrada no schema "${schema}".`)
+		console.warn(`⚠️ Aviso: Nenhuma tabela encontrada".`)
 		return
 	}
 
 	const requests = models.map((row) =>
 		prisma.$executeRawUnsafe(
-			`TRUNCATE TABLE "${schema}"."${row.tablename}" RESTART IDENTITY CASCADE;`
+			`TRUNCATE TABLE "${row.tablename}" RESTART IDENTITY CASCADE;`
 		)
 	)
 
 	try {
 		await prisma.$transaction(requests)
-		if (log) console.info(`Schema ${schema} cleaned successfully!`)
+		if (log) console.info('✅ Database cleaned successfully!')
 	} catch (error) {
-		console.error(`❌ Error found when cleaning ${schema} schema:`, error)
+		console.error('❌ Error cleaning database', error)
 	}
 }
