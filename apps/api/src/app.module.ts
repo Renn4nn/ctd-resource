@@ -6,7 +6,7 @@ import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod'
 import { DocumentModule } from './document/document.module'
 import { config, validate } from './lib/config/env'
 import { HttpExceptionFilter } from './lib/filters/http.exception.filter'
-import { PrismaClientFactory } from './lib/utils/prisma.utils'
+import { usePrismaClientFactory } from './lib/utils/prisma.utils'
 import { UsersModule } from './users/users.module'
 
 @Module({
@@ -20,7 +20,7 @@ import { UsersModule } from './users/users.module'
 		CustomPrismaModule.forRootAsync({
 			name: 'PrismaService',
 			isGlobal: true,
-			useFactory: PrismaClientFactory,
+			useFactory: usePrismaClientFactory,
 			inject: [ConfigService]
 		}),
 		UsersModule,

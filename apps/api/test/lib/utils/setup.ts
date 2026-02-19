@@ -4,18 +4,18 @@ import { HttpAdapterHost } from '@nestjs/core'
 import { Test } from '@nestjs/testing'
 import {
 	cleanDatabase,
-	PrismaClient,
+	ExtendedPrismaClient,
 	seedDatabase,
 	seedDocuments,
 	seedUsers
 } from '@repo/database'
 import { AppModule } from 'src/app.module'
-import { CustomPrismaClient } from 'src/lib/extensions/prisma.extension'
 import {
 	PrismaClientExceptionFilter,
 	ZodSerializationExceptionFilter,
 	ZodValidationExceptionFilter
 } from 'src/lib/filters'
+import { CustomPrismaClient } from 'src/lib/types/prisma'
 
 export async function createApp(): Promise<INestApplication> {
 	const moduleRef = await Test.createTestingModule({
@@ -38,7 +38,7 @@ export async function createApp(): Promise<INestApplication> {
 	return app
 }
 
-async function setupDatabase(prisma: PrismaClient): Promise<void> {
+async function setupDatabase(prisma: ExtendedPrismaClient): Promise<void> {
 	await seedDatabase({
 		prisma,
 		models: {

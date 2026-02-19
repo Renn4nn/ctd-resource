@@ -1,8 +1,9 @@
 import { type EmbeddingResponse, embeddingEnvSchema } from '@repo/config'
-import type { Prisma, PrismaClient } from '../generated/prisma/client.js'
+import type { Prisma } from '../generated/prisma/client.js'
+import type { ExtendedPrismaClient } from './extensions/index.js'
 
 type SeedDatabaseParams = {
-	prisma: PrismaClient
+	prisma: ExtendedPrismaClient
 	models: {
 		[key: string]: {
 			data: unknown[]
@@ -17,8 +18,9 @@ export async function seedDatabase({
 	models,
 	log = true
 }: SeedDatabaseParams): Promise<void> {
+	const { document, ...otherModels } = models
 	const transactions: Prisma.PrismaPromise<unknown>[] = Object.entries(
-		models
+		otherModels
 	).flatMap(([key, obj]) => {
 		const { data, whereCb } = obj
 
@@ -31,12 +33,30 @@ export async function seedDatabase({
 			})
 		)
 	})
-
 	try {
-		const result = await prisma.$transaction(transactions)
+		const docResults: Record<string, unknown>[] = []
+
+		if (document) {
+			if (document.data) {
+				for (const doc of document.data as Pick<
+					Prisma.DocumentModel,
+					'title' | 'content'
+				>[]) {
+					const created = await prisma.document.safeCreateWithEmbedding({
+						...doc
+					})
+					docResults.push(created)
+				}
+			}
+		}
+
+		const tResults = await prisma.$transaction(transactions)
+
+		const insertedRows = tResults.length + docResults.length
+
 		if (log)
 			console.info(
-				`✅ Database seeded successfully! ${result.length} records processed.`
+				`✅ Database seeded successfully! ${insertedRows} records processed.`
 			)
 	} catch (error) {
 		console.error('❌ Error seeding database:', error)
@@ -45,7 +65,7 @@ export async function seedDatabase({
 }
 
 export async function cleanDatabase(
-	prisma: PrismaClient,
+	prisma: ExtendedPrismaClient,
 	schema: string,
 	log: boolean = true
 ): Promise<void> {

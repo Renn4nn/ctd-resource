@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { cleanDatabase } from '@repo/database'
-import { CustomPrismaClient } from 'src/lib/extensions/prisma.extension'
+import { CustomPrismaClient } from 'src/lib/types/prisma'
 
 export async function teardownTestEnvironment(
 	app: INestApplication
