@@ -1,6 +1,40 @@
-import { type EmbeddingResponse, embeddingEnvSchema } from '@repo/config'
+import type { EmbeddingResponse } from '@repo/config'
 import type { Prisma } from '../generated/prisma/client.js'
 import type { ExtendedPrismaClient } from './extensions/index.js'
+
+export type EmbeddingParams = {
+	url: string
+	model: string
+	prompt: string
+	dimensions: number
+}
+
+export async function embedding({
+	dimensions,
+	url,
+	model,
+	prompt
+}: EmbeddingParams): Promise<string> {
+	const res = await fetch(url, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			model,
+			prompt
+		})
+	})
+
+	const resJson = (await res.json()) as EmbeddingResponse
+	const vetor = resJson.embedding
+
+	if (vetor.length !== dimensions)
+		throw new Error(
+			`Dimensão de vetor incompatível: esperado
+				${dimensions} recebido ${vetor.length}`
+		)
+
+	return `[${vetor.join(',')}]`
+}
 
 type SeedDatabaseParams = {
 	prisma: ExtendedPrismaClient
@@ -11,12 +45,14 @@ type SeedDatabaseParams = {
 		}
 	}
 	log?: boolean
+	embeddingParams: Omit<EmbeddingParams, 'prompt'>
 }
 
 export async function seedDatabase({
 	prisma,
 	models,
-	log = true
+	log = true,
+	embeddingParams
 }: SeedDatabaseParams): Promise<void> {
 	const { document, ...otherModels } = models
 	const transactions: Prisma.PrismaPromise<unknown>[] = Object.entries(
@@ -38,12 +74,13 @@ export async function seedDatabase({
 
 		if (document) {
 			if (document.data) {
-				for (const doc of document.data as Pick<
+				for (const data of document.data as Pick<
 					Prisma.DocumentModel,
 					'title' | 'content'
 				>[]) {
 					const created = await prisma.document.safeCreateWithEmbedding({
-						...doc
+						data,
+						embeddingParams
 					})
 					docResults.push(created)
 				}
@@ -92,29 +129,4 @@ export async function cleanDatabase(
 	} catch (error) {
 		console.error(`❌ Error found when cleaning ${schema} schema:`, error)
 	}
-}
-
-export async function embedding(prompt: string): Promise<string> {
-	const { EMBEDDING_URL, EMBEDDING_MODEL_NAME, EMBEDDING_DIMENSIONS } =
-		embeddingEnvSchema.parse(process.env)
-
-	const res = await fetch(EMBEDDING_URL, {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			model: EMBEDDING_MODEL_NAME,
-			prompt
-		})
-	})
-
-	const resJson = (await res.json()) as EmbeddingResponse
-	const vetor = resJson.embedding
-
-	if (vetor.length !== EMBEDDING_DIMENSIONS)
-		throw new Error(
-			`EMBEDDING_DIMENSIONS incompatível: esperado
-				${EMBEDDING_DIMENSIONS} recebido ${vetor.length}`
-		)
-
-	return `[${vetor.join(',')}]`
 }

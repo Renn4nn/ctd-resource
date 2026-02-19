@@ -25,15 +25,6 @@ export const transformDatabaseUrl = z
 export type GenerateDatabaseUrlInput = z.input<typeof transformDatabaseUrl>
 export type GenerateDatabaseUrlOutput = z.output<typeof transformDatabaseUrl>
 
-export const apiEnvSchema = z.object({
-	NODE_ENV: nodeEnv,
-	API_PORT: z.coerce.number(),
-	DATABASE_URL: z.string()
-})
-
-export type ApiEnvDtoInput = z.input<typeof apiEnvSchema>
-export type ApiEnvDtoOutput = z.output<typeof apiEnvSchema>
-
 export const embeddingEnvSchema = z.object({
 	EMBEDDING_URL: z.string(),
 	EMBEDDING_MODEL_NAME: z.string(),
@@ -41,3 +32,13 @@ export const embeddingEnvSchema = z.object({
 })
 
 export type EmbeddingEnv = z.infer<typeof embeddingEnvSchema>
+
+export const apiEnvSchema = z.object({
+	NODE_ENV: nodeEnv,
+	API_PORT: z.coerce.number(),
+	DATABASE_URL: z.string(),
+	...embeddingEnvSchema.shape
+})
+
+export type ApiEnvDtoInput = z.input<typeof apiEnvSchema>
+export type ApiEnvDtoOutput = z.output<typeof apiEnvSchema>

@@ -1,10 +1,16 @@
-import { transformDatabaseUrl } from '@repo/config'
+import { embeddingEnvSchema, transformDatabaseUrl } from '@repo/config'
 import { extendPrismaClientFactory } from '../src/lib/extensions'
 import { seedDocuments, seedUsers } from '../src/lib/seed/data'
-import { seedDatabase } from '../src/lib/utils'
+import { type EmbeddingParams, seedDatabase } from '../src/lib/utils'
 
 const connectionString = transformDatabaseUrl.parse(process.env)
 const schema = process.env.POSTGRES_DB_SCHEMA || 'public'
+const parseResult = embeddingEnvSchema.parse(process.env)
+const embeddingParams: Omit<EmbeddingParams, 'prompt'> = {
+	url: parseResult.EMBEDDING_URL,
+	model: parseResult.EMBEDDING_MODEL_NAME,
+	dimensions: parseResult.EMBEDDING_DIMENSIONS
+}
 
 const extendedPrisma = extendPrismaClientFactory(connectionString, schema)
 
@@ -23,6 +29,7 @@ async function main() {
 			}
 			// biome-ignore-end lint/suspicious/noExplicitAny: Required
 		},
+		embeddingParams,
 		log: true
 	})
 }

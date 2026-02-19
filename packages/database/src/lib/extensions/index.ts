@@ -1,6 +1,11 @@
 import { PrismaPg } from '@prisma/adapter-pg'
 import { Prisma, PrismaClient } from '../../generated/prisma/client.js'
-import { embedding } from '../utils.js'
+import { type EmbeddingParams, embedding } from '../utils.js'
+
+export type CreateWithEmbeddingParams = {
+	data: Pick<Prisma.DocumentModel, 'title' | 'content'>
+	embeddingParams: Omit<EmbeddingParams, 'prompt'>
+}
 
 export const documentExtension = Prisma.defineExtension((client) => {
 	return client.$extends({
@@ -10,11 +15,14 @@ export const documentExtension = Prisma.defineExtension((client) => {
 				/**
 				 * Cria um documento já gerando e salvando o vetor automaticamente
 				 */
-				async createWithEmbedding(data: {
-					title: string
-					content: string
-				}): Promise<Prisma.DocumentModel> {
-					const vectorString = await embedding(data.content)
+				async createWithEmbedding({
+					data,
+					embeddingParams
+				}: CreateWithEmbeddingParams): Promise<Prisma.DocumentModel> {
+					const vectorString = await embedding({
+						...embeddingParams,
+						prompt: data.content
+					})
 					const result = await client.$queryRaw<Prisma.DocumentModel[]>`
                         INSERT INTO "Document"
                         (id, title, content, embedding, "createdAt", "updatedAt")
@@ -35,10 +43,10 @@ export const documentExtension = Prisma.defineExtension((client) => {
 				/**
 				 * Cria um documento já gerando e salvando o vetor automaticamente ou retorna-o se já existente
 				 */
-				async safeCreateWithEmbedding(data: {
-					title: string
-					content: string
-				}): Promise<Prisma.DocumentModel> {
+				async safeCreateWithEmbedding({
+					data,
+					embeddingParams
+				}: CreateWithEmbeddingParams): Promise<Prisma.DocumentModel> {
 					const context = Prisma.getExtensionContext(this)
 					const alreadyCreatedDoc = await context.findUnique({
 						where: { title: data.title }
@@ -46,7 +54,7 @@ export const documentExtension = Prisma.defineExtension((client) => {
 					if (alreadyCreatedDoc) {
 						return alreadyCreatedDoc
 					} else {
-						return context.createWithEmbedding(data)
+						return context.createWithEmbedding({ data, embeddingParams })
 					}
 				}
 			}
