@@ -1,6 +1,9 @@
 import type { EmbeddingResponse } from '@repo/config'
 import type { Prisma } from '../generated/prisma/client.js'
-import type { ExtendedPrismaClient } from './extensions/index.js'
+import type {
+	CreateWithEmbeddingParams,
+	ExtendedPrismaClient
+} from './extensions/index.js'
 
 export type EmbeddingParams = {
 	url: string
@@ -73,27 +76,24 @@ export async function seedDatabase({
 			})
 		)
 	})
+	let insertedRows: number = 0
 	try {
-		const docResults: Record<string, unknown>[] = []
+		if (document?.data) {
+			const docPromises = (
+				document.data as CreateWithEmbeddingParams['data'][]
+			).map((data) =>
+				prisma.document.safeCreateWithEmbedding({
+					data,
+					embeddingParams
+				})
+			)
 
-		if (document) {
-			if (document.data) {
-				for (const data of document.data as Pick<
-					Prisma.DocumentModel,
-					'title' | 'content'
-				>[]) {
-					const created = await prisma.document.safeCreateWithEmbedding({
-						data,
-						embeddingParams
-					})
-					docResults.push(created)
-				}
-			}
+			const docResults = await Promise.all(docPromises)
+			insertedRows += docResults.length
 		}
 
 		const tResults = await prisma.$transaction(transactions)
-
-		const insertedRows = tResults.length + docResults.length
+		insertedRows += tResults.length
 
 		if (log)
 			console.info(

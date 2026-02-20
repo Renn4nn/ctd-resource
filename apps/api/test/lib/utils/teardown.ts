@@ -5,6 +5,11 @@ import { CustomPrismaClient } from 'src/lib/types/prisma'
 export async function teardownTestEnvironment(
 	app: INestApplication
 ): Promise<void> {
+	if (!app) {
+		console.warn('App instance is not available. Skipping teardown.')
+		return
+	}
+
 	try {
 		const prismaService = app.get<CustomPrismaClient>('PrismaService')
 		const prisma = prismaService.client
