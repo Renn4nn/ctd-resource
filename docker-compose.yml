@@ -6,7 +6,7 @@ services:
     restart: always
     env_file: .env.database.production
     ports:
-      - "${POSTGRES_PORT:-5432}:5432"
+      - "5432:5432"
     networks:
       - ctd-resource-network
     healthcheck:

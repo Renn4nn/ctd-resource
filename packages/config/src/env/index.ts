@@ -8,18 +8,12 @@ export const transformDatabaseUrl = z
 		POSTGRES_HOST: z.string(),
 		POSTGRES_USER: z.string(),
 		POSTGRES_PASSWORD: z.string(),
-		POSTGRES_PORT: z.coerce.number(),
 		POSTGRES_DB: z.string()
 	})
 	.transform((props) => {
-		const {
-			POSTGRES_DB,
-			POSTGRES_HOST,
-			POSTGRES_PASSWORD,
-			POSTGRES_USER,
-			POSTGRES_PORT
-		} = props
-		return `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public`
+		const { POSTGRES_DB, POSTGRES_HOST, POSTGRES_PASSWORD, POSTGRES_USER } =
+			props
+		return `postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}?schema=public`
 	})
 
 export type GenerateDatabaseUrlInput = z.input<typeof transformDatabaseUrl>
