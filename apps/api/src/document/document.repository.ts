@@ -43,7 +43,15 @@ export class DocumentRepository implements IDocumentRepository {
 	}
 
 	updateDocument(params: UpdateDocumentParams) {
-		return this.prisma.client.document.update({ ...params })
+		const embeddingParams: Omit<EmbeddingParams, 'prompt'> = {
+			url: this.config.getOrThrow('EMBEDDING_URL'),
+			dimensions: this.config.getOrThrow<number>('EMBEDDING_DIMENSIONS'),
+			model: this.config.getOrThrow('EMBEDDING_MODEL_NAME')
+		}
+		return this.prisma.client.document.updateWithEmbedding({
+			...params,
+			embeddingParams
+		})
 	}
 
 	deleteDocument(where: Prisma.DocumentWhereUniqueInput) {

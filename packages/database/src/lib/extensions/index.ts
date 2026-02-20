@@ -7,6 +7,12 @@ export type CreateWithEmbeddingParams = {
 	embeddingParams: Omit<EmbeddingParams, 'prompt'>
 }
 
+export type UpdateWithEmbeddingParams = {
+	where: Prisma.DocumentWhereUniqueInput
+	data: Prisma.DocumentUpdateInput
+	embeddingParams: Omit<EmbeddingParams, 'prompt'>
+}
+
 export const documentExtension = Prisma.defineExtension((client) => {
 	return client.$extends({
 		name: 'documentWithEmbedding',
@@ -56,6 +62,40 @@ export const documentExtension = Prisma.defineExtension((client) => {
 					} else {
 						return context.createWithEmbedding({ data, embeddingParams })
 					}
+				},
+
+				/**
+				 * Atualiza um documento e recalcula o embedding
+				 */
+				async updateWithEmbedding({
+					where,
+					data,
+					embeddingParams
+				}: UpdateWithEmbeddingParams): Promise<Prisma.DocumentModel> {
+					const context = Prisma.getExtensionContext(this)
+
+					const current = await context.findUniqueOrThrow({ where })
+
+					const newTitle = data.title ?? current.title
+					const newContent = data.content ?? current.content
+
+					const vectorString = await embedding({
+						...embeddingParams,
+						prompt: `${newTitle}: ${newContent}`
+					})
+
+					const result = await client.$queryRaw<Prisma.DocumentModel[]>`
+                        UPDATE "Document"
+                        SET 
+                            title = ${newTitle},
+                            content = ${newContent},
+                            embedding = ${vectorString}::vector,
+                            "updatedAt" = now()
+                        WHERE id = ${current.id}
+                        RETURNING id, title, content, "createdAt", "updatedAt";
+                    `
+					// biome-ignore lint/style/noNonNullAssertion: Se o insert acima falhar ele lançará uma execeção
+					return result[0]!
 				}
 			}
 		}
