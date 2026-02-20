@@ -28,7 +28,7 @@ export type GenerateDatabaseUrlOutput = z.output<typeof transformDatabaseUrl>
 export const embeddingEnvSchema = z.object({
 	EMBEDDING_URL: z.string(),
 	EMBEDDING_MODEL_NAME: z.string(),
-	EMBEDDING_DIMENSIONS: z.coerce.number()
+	EMBEDDING_DIMENSIONS: z.coerce.number().min(1)
 })
 
 export type EmbeddingEnv = z.infer<typeof embeddingEnvSchema>

@@ -21,7 +21,7 @@ export const documentExtension = Prisma.defineExtension((client) => {
 				}: CreateWithEmbeddingParams): Promise<Prisma.DocumentModel> {
 					const vectorString = await embedding({
 						...embeddingParams,
-						prompt: data.content
+						prompt: `${data.title}: ${data.content}`
 					})
 					const result = await client.$queryRaw<Prisma.DocumentModel[]>`
                         INSERT INTO "Document"

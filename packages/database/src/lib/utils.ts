@@ -15,25 +15,29 @@ export async function embedding({
 	model,
 	prompt
 }: EmbeddingParams): Promise<string> {
-	const res = await fetch(url, {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({
-			model,
-			prompt
+	try {
+		const res = await fetch(url, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				model,
+				prompt
+			})
 		})
-	})
 
-	const resJson = (await res.json()) as EmbeddingResponse
-	const vetor = resJson.embedding
+		const resJson = (await res.json()) as EmbeddingResponse
+		const vetor = resJson.embedding
 
-	if (vetor.length !== dimensions)
-		throw new Error(
-			`Dimensão de vetor incompatível: esperado
-				${dimensions} recebido ${vetor.length}`
-		)
+		if (vetor.length !== dimensions)
+			throw new Error(
+				`Dimensão de vetor incompatível: esperado
+					${dimensions} recebido ${vetor.length}`
+			)
 
-	return `[${vetor.join(',')}]`
+		return `[${vetor.join(',')}]`
+	} catch (e) {
+		throw new Error(`Embedding failed: ${e}`)
+	}
 }
 
 type SeedDatabaseParams = {
