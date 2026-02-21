@@ -1,6 +1,6 @@
 # 📝 Visão Geral
 
-Este projeto é a aplicação central de Documentação e Onboarding da CTD. Ele foi concebido para ser a **"fonte única da verdade"** para o time de desenvolvimento, consolidando guias, padrões arquiteturais e manuais de ferramentas em um único local acessível e interativo.
+Este projeto é a aplicação central de Documentação e Onboarding da CTD. Ele foi concebido para ser a **"fonte única da verdade"** para o time de desenvolvimento, consolidando guias, padrões arquiteturais e manuais de ferramentas em um único local acessível e interativo. Consulte a pasta [docs] para detalhes técnicos da arquitetura.
 
 ### 🤖 Assistente de IA com `RAG`
 
@@ -81,3 +81,5 @@ Saber o tamanho exato permite que o motor do banco de dados otimize a alocação
 | nomic-embed-text               | Nomic / Ollama | 768             |
 
 > **Nota de Arquitetura**: Como os vetores de modelos diferentes não são compatíveis entre si, qualquer troca de modelo de IA exigirá uma nova migration no banco e a re-geração (re-indexação) de todos os embeddings existentes.
+
+[docs]:./docs
