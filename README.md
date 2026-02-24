@@ -46,6 +46,25 @@ Para gerenciar a complexidade de múltiplos projetos (Web, Api e Packages) em um
 - **Web**: `Next.js` (Framework `React`).
 - **Api**: `NestJS` (Arquitetura modular e escalável).
 
+# 📦 Pré-requisitos
+
+🛠️ Ambiente de Desenvolvimento:
+- **Node.js v25.3.0+**: Recomendamos o uso do `nvm` também para gerenciamento de versões - [Download](https://nodejs.org/pt-br/download)
+- **pnpm**: Gerenciador de pacotes eficiente - [Docs](https://pnpm.io/installation)
+    ```sh
+        npm install -g pnpm
+    ```
+- **Docker**: Necessário para subir os containers de suporte - [Docs](https://docs.docker.com/desktop/setup/install/windows-install)
+- **Make**: Caso esteja no Windows, instale via [Chocolatey] com o comando: 
+    ```sh
+        choco install make
+    ```
+    No Linux/Mac, já costuma estar disponível.
+
+🌐 Dependências Externas (Servidores):
+- **Servidor Langflow**: Orquestrador de fluxo de IA - [Docs](https://docs.langflow.org/get-started-installation)
+- **Servidor com Ollama**: Servidor local para execução de LLMs - [Docs](https://docs.ollama.com/)
+
 # 🧠 O Tipo `vector`: Por que a dimensão importa?
 
 O campo de embedding não é apenas uma coluna de dados comum; ele armazena a identidade semântica do seu conteúdo em um espaço multidimensional. No `PostgreSQL`, através da extensão `pgvector`, definir explicitamente o tamanho desse vetor (ex: **vector(n)**) é uma prática fundamental por três pilares principais:
@@ -83,3 +102,4 @@ Saber o tamanho exato permite que o motor do banco de dados otimize a alocação
 > **Nota de Arquitetura**: Como os vetores de modelos diferentes não são compatíveis entre si, qualquer troca de modelo de IA exigirá uma nova migration no banco e a re-geração (re-indexação) de todos os embeddings existentes.
 
 [docs]:./docs
+[Chocolatey]:https://docs.chocolatey.org/en-us/choco/setup/#install-with-powershellexe
