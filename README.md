@@ -65,6 +65,40 @@ Para gerenciar a complexidade de múltiplos projetos (Web, Api e Packages) em um
 - **Servidor Langflow**: Orquestrador de fluxo de IA - [Docs](https://docs.langflow.org/get-started-installation)
 - **Servidor com Ollama**: Servidor local para execução de LLMs - [Docs](https://docs.ollama.com/)
 
+# 🔑 Variáveis de Ambiente
+
+Cada modelo de arquivo .env abaixo deve residir onde seu título aponta e deverá ter o sufixo **"example"** substituído pelo ambiente de execução (**development**, **production** e **test**) desejado. Não será incomum você acabar com vários arquivos de .env do mesmo serviço para diferentes ambientes. 
+
+Alguns exemplos reais:
+- **.env.database.production**
+- **.env.embedding.development**
+- **./apps/api/.env.test**
+- **./apps/web/.env.development**
+
+#### .env.database.example
+
+Esse arquivo é utilizado tanto para configurar o container do PostgreSQL quanto para criar a `DATABASE_URL` utilizado na **Api** e no **prisma.config.ts** para se conectarem ao banco de dados. O modelo de exemplo pode ser encontrado [aqui](./.env.database.example).
+
+> Para mais detalhes sobre o uso de cada variável, consulte a documentação oficial da imagem nesse [link](https://hub.docker.com/_/postgres/#environment-variables)
+
+#### .env.embedding.example
+
+Esse arquivo é utilizado para configurar o embedding da aplicação, veja o uso de cada variável abaixo:
+- **EMBEDDING_URL**: Url do servidor **Ollama** onde a **Api** irá direcionar suas requisições de embedding.
+- **EMBEDDING_MODEL_NAME**: Nome do modelo que será utilizado para embedding (deve estar disponível no servidor).
+- **EMBEDDING_DIMENSIONS**: O tamanho do vetor retornado pelo modelo de embedding, é utilizado pela **Api** como uma trava de segurança.
+
+#### ./apps/api/.env.example
+
+Esse arquivo é utilizado para configurar a **Api**, veja o uso de cada variável abaixo:
+- **NODE_ENV**: Define o ambiente de execução da **Api** (**development**, **production** e **test**).
+- **API_PORT**: Porta aberta para requisições api. 
+
+#### ./apps/web/.env.example
+
+Esse arquivo é utilizado para configurar o **Web**, veja o uso de cada variável abaixo:
+- **API_BASE_URL**: Url base da **Api** onde será redirecionado as requisições. *⚠️ Essa variável é afetada pela `API_PORT`.*
+
 # 🧠 O Tipo `vector`: Por que a dimensão importa?
 
 O campo de embedding não é apenas uma coluna de dados comum; ele armazena a identidade semântica do seu conteúdo em um espaço multidimensional. No `PostgreSQL`, através da extensão `pgvector`, definir explicitamente o tamanho desse vetor (ex: **vector(n)**) é uma prática fundamental por três pilares principais:
