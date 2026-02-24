@@ -3,6 +3,46 @@ import type { Prisma } from '../../../generated/prisma/client.js'
 export const seedDocuments: Pick<Prisma.DocumentModel, 'title' | 'content'>[] =
 	[
 		{
+			title: '📋 Guia de Documentação de Projetos | CTD',
+			content: `
+Para garantir a agilidade do time e a consistência técnica, toda aplicação deve possuir uma documentação baseada em três pilares complementares:
+
+### 📄 README.md
+
+Este arquivo deve residir na raiz do repositório. Sua estrutura deve ser clara o suficiente para que um novo desenvolvedor consiga configurar e executar o projeto em poucos minutos.
+
+#### ✅ Tópicos obrigatórios:
+- **🔍 Visão Geral**: Breve descrição do propósito do projeto e o problema que ele resolve.
+- **🛠️ Stack Tecnológica**: Linguagens e versões (\`Node.js v20\`, \`Python 3.11\`, etc.), banco de dados e frameworks principais.
+- **📦 Pré-requisitos**: Ferramentas necessárias (\`Docker\`, \`pnpm\`, \`nvm\`, \`chocolatey\`, etc.).
+- **🔑 Variáveis de Ambiente**: Lista de chaves necessárias (ou indicação de um arquivo **.env.example**).
+- **🚀 Instalação e Execução**: Comandos para instalar dependências, rodar as migrações do banco e iniciar o servidor.
+- **🧪 Testes**: Instruções de como executar a suíte de testes unitários e de integração.
+
+### 🏗️ C4 Model (Documentação de Arquitetura)
+
+Utilizamos o C4 Model como padrão para diagramação, permitindo diferentes níveis de profundidade técnica. Deve-se armazenar esses diagrama junto ao repositório, em uma pasta chamada /docs.
+
+Ele divide a visão em quatro níveis de abstração:
+1. **🌐 Contexto (Sistema)**: Visão macro de como o sistema interage com usuários e sistemas externos.
+2. **📦 Contêineres**: Detalha as unidades executáveis (ex: API, Frontend, Worker), como elas se comunicam (HTTP, Mensageria) e onde armazenam dados.
+3. **🧩 Componentes (Opcional)**: Decomposição de um contêiner em partes menores.
+4. **💻 Código (Opcional)**: Diagramas de classe para lógicas de negócio extremamente complexas.
+
+> ⚠️ **É obrigatória a presença dos níveis 1 e 2**. Eles garantem que qualquer colaborador entenda a composição e o fluxo de dados da aplicação rapidamente.
+
+🔗 [Documentação oficial do C4 Model](https://c4model.com/)
+
+### OpenAPI/Swagger (Documentação de API)
+
+Para aplicações que expõem endpoints, utilizamos o padrão do mercado que é o OpenAPI 3.0.
+
+- **🔄 Manutenção**: Garanta que a documentação reflita sempre o estado atual do código.
+- **🤖 Automação**: Utilize bibliotecas (ex: \`swagger-jsdoc\`, \`drf-spectacular\`, \`swashbuckle\`) que geram o JSON/YAML automaticamente a partir das rotas e tipos.
+- **📝 Exemplos**: Sempre forneça exemplos reais de *payloads* de requisição e as possíveis respostas de erro (4xx, 5xx).
+`
+		},
+		{
 			title: 'Guia do Desenvolvedor (CTD)',
 			content: `Este guia existe para padronizar o ambiente e deixar o onboarding previsível.
 
