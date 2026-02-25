@@ -106,13 +106,27 @@ Esse arquivo é utilizado para configurar o **Web**, veja o uso de cada variáve
 git clone https://github.com/Renn4nn/ctd-resource
 ```
 2. [Configurar o ambiente](#📦-pré-requisitos)
-> Para o ambiente de **desenvolvimento**, é necessário ter uma instância do **PostgreSQL + pgvector** sendo **executada local/servidor**
-
+> Para os ambientes de **desenvolvimento** e **teste**, é necessário ter uma instância do **PostgreSQL + pgvector** sendo **executada local/servidor**
 3. Instalar dependências
 ```sh
 pnpm install
 ```
-5. Criar os [arquivos .env](#🔑-variáveis-de-ambiente) necessários
+4. Criar os [arquivos .env](#🔑-variáveis-de-ambiente) necessários
+5. Preparar o banco
+     - Desenvolvimento:
+        - Migration:
+        ```sh
+            pnpm --filter=@repo/database db:migrate
+        ```
+        - Seed (opcional):
+        ```sh
+            pnpm --filter=@repo/database db:seed:dev
+        ```
+        
+    - Teste: 
+        ```sh
+            pnpm --filter=@repo/database db:deploy:test
+        ```
 6. Executar o projeto:
     - Desenvolvimento:
     ```sh
@@ -123,6 +137,20 @@ pnpm install
         make build && make up
     ```
 
+### 🧪 Testes
+
+Antes de continuar, recomendo separar uma instância do **PostgreSQL + pgvector** dedicada para testes, visto que o processo de teste limpa o banco de dados a cada iteração com o intuito de manter a consistência do ambiente.
+
+Certifique-se também de criar os [arquivos .env](#🔑-variáveis-de-ambiente) necessário para a execução dos testes.
+
+Para executar os **testes**, siga as instruções do tópico ["Instalação e Execução"](#🚀-instalação-e-execução) até o passo **5**, após isso, execute o comando à seguir:
+```sh
+pnpm test:e2e
+```
+
+Após rodar o comando, você verá o progresso no terminal. Vale notar que, como a etapa de seeding exige o processamento de embeddings, a execução pode levar mais tempo que o comum ou gerar falhas por timeout dependendo do ambiente. Uma forma de solucionar esse problema é alterar a propriedade **testTimeout** do arquivo [jest-e2e.json](./apps/api/test/jest-e2e.json) responsável por configurar o tempo limite de execução dos testes.
+
+> Atualmente, o projeto foca exclusivamente em testes E2E para a Api.
 
 # 🧠 O Tipo `vector`: Por que a dimensão importa?
 
