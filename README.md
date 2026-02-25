@@ -99,6 +99,31 @@ Esse arquivo é utilizado para configurar a **Api**, veja o uso de cada variáve
 Esse arquivo é utilizado para configurar o **Web**, veja o uso de cada variável abaixo:
 - **API_BASE_URL**: Url base da **Api** onde será redirecionado as requisições. *⚠️ Essa variável é afetada pela `API_PORT`.*
 
+# 🚀 Instalação e Execução
+
+1. Clonar o repositório
+```sh
+git clone https://github.com/Renn4nn/ctd-resource
+```
+2. [Configurar o ambiente](#📦-pré-requisitos)
+> Para o ambiente de **desenvolvimento**, é necessário ter uma instância do **PostgreSQL + pgvector** sendo **executada local/servidor**
+
+3. Instalar dependências
+```sh
+pnpm install
+```
+5. Criar os [arquivos .env](#🔑-variáveis-de-ambiente) necessários
+6. Executar o projeto:
+    - Desenvolvimento:
+    ```sh
+        pnpm dev
+    ```
+    - Produção 
+    ```sh
+        make build && make up
+    ```
+
+
 # 🧠 O Tipo `vector`: Por que a dimensão importa?
 
 O campo de embedding não é apenas uma coluna de dados comum; ele armazena a identidade semântica do seu conteúdo em um espaço multidimensional. No `PostgreSQL`, através da extensão `pgvector`, definir explicitamente o tamanho desse vetor (ex: **vector(n)**) é uma prática fundamental por três pilares principais:
