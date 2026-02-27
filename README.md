@@ -52,12 +52,12 @@ Para gerenciar a complexidade de múltiplos projetos (Web, Api e Packages) em um
 - **Node.js v25.3.0+**: Recomendamos o uso do `nvm` também para gerenciamento de versões - [Download](https://nodejs.org/pt-br/download)
 - **pnpm**: Gerenciador de pacotes eficiente - [Docs](https://pnpm.io/installation)
     ```sh
-        npm install -g pnpm
+    npm install -g pnpm
     ```
 - **Docker**: Necessário para subir os containers de suporte - [Docs](https://docs.docker.com/desktop/setup/install/windows-install)
-- **Make**: Caso esteja no Windows, instale via [Chocolatey] com o comando: 
+- **Make**: Caso esteja no Windows, instale via [Chocolatey] com o comando:
     ```sh
-        choco install make
+    choco install make
     ```
     No Linux/Mac, já costuma estar disponível.
 
@@ -67,7 +67,7 @@ Para gerenciar a complexidade de múltiplos projetos (Web, Api e Packages) em um
 
 # 🔑 Variáveis de Ambiente
 
-Cada modelo de arquivo .env abaixo deve residir onde seu título aponta e deverá ter o sufixo **"example"** substituído pelo ambiente de execução (**development**, **production** e **test**) desejado. Não será incomum você acabar com vários arquivos de .env do mesmo serviço para diferentes ambientes. 
+Cada modelo de arquivo .env abaixo deve residir onde seu título aponta e deverá ter o sufixo **"example"** substituído pelo ambiente de execução (**development**, **production** e **test**) desejado. Não será incomum você acabar com vários arquivos de .env do mesmo serviço para diferentes ambientes.
 
 Alguns exemplos reais:
 - **.env.database.production**
@@ -92,7 +92,7 @@ Esse arquivo é utilizado para configurar o embedding da aplicação, veja o uso
 
 Esse arquivo é utilizado para configurar a **Api**, veja o uso de cada variável abaixo:
 - **NODE_ENV**: Define o ambiente de execução da **Api** (**development**, **production** e **test**).
-- **API_PORT**: Porta aberta para requisições api. 
+- **API_PORT**: Porta aberta para requisições api.
 
 #### ./apps/web/.env.example
 
@@ -116,25 +116,24 @@ pnpm install
      - Desenvolvimento:
         - Migration:
         ```sh
-            pnpm --filter=@repo/database db:migrate
+        pnpm db:migrate
         ```
-        - Seed (opcional):
+        - Seeding (opcional):
         ```sh
-            pnpm --filter=@repo/database db:seed:dev
+        pnpm --filter=@repo/database db:seed:dev
         ```
-        
-    - Teste: 
+    - Teste:
         ```sh
-            pnpm --filter=@repo/database db:deploy:test
+        pnpm --filter=@repo/database db:deploy:test
         ```
 6. Executar o projeto:
     - Desenvolvimento:
     ```sh
-        pnpm dev
+    pnpm dev
     ```
-    - Produção 
+    - Produção
     ```sh
-        make build && make up
+    make build && make up
     ```
 
 ### 🧪 Testes
@@ -150,7 +149,7 @@ pnpm test:e2e
 
 Após rodar o comando, você verá o progresso no terminal. Vale notar que, como a etapa de seeding exige o processamento de embeddings, a execução pode levar mais tempo que o comum ou gerar falhas por timeout dependendo do ambiente. Uma forma de solucionar esse problema é alterar a propriedade **testTimeout** do arquivo [jest-e2e.json](./apps/api/test/jest-e2e.json) responsável por configurar o tempo limite de execução dos testes.
 
-> Atualmente, o projeto foca exclusivamente em testes E2E para a Api.
+> Atualmente, o projeto possui somente os testes E2E para a Api.
 
 # 🧠 O Tipo `vector`: Por que a dimensão importa?
 

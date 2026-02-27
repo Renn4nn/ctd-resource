@@ -7,6 +7,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test:e2e": "turbo run test:e2e",
+    "db:migrate": "turbo run db:migrate",
     "format": "biome format --write",
     "check": "turbo run check",
     "check-types": "turbo run check-types",

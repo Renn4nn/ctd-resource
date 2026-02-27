@@ -35,6 +35,10 @@
     "test:e2e": {
       "cache": false
     },
+    "db:migrate": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
     "@repo/database#build": {
       "dependsOn": ["db:generate"],
       "outputs": ["dist/**"]
