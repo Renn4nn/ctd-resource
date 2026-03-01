@@ -15,7 +15,7 @@ export function ChatWidgetFooter() {
 					<button type="button" title="Anexar arquivo">
 						<AttachFileSvg />
 					</button>
-					<button type="button" title="Enviar">
+					<button type="submit" title="Enviar" className={styles['submit-btn']}>
 						<SendSvg />
 					</button>
 				</div>
