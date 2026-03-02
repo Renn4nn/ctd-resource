@@ -6,6 +6,7 @@ export function ChatWidgetFooter() {
 		<div className={styles.footer}>
 			<form action="" className={styles.form}>
 				<textarea
+					required
 					name="chat"
 					id="chat"
 					placeholder="Message..."

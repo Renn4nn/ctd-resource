@@ -139,9 +139,16 @@
 		outline: 1px solid var(--bg-color-mc30);
 		border-radius: 32px;
 		padding: 0.3rem 0.6rem 0.3rem 0;
+		gap: 0.5rem;
 
 		&:focus-within {
 			outline: 2px solid var(--main-color);
+		}
+
+		&:valid {
+			> .controls > .submit-btn {
+				display: inline-block;
+			}
 		}
 
 		> .input {
@@ -187,6 +194,7 @@
 				}
 
 				&.submit-btn {
+					display: none;
 					padding: 0.25rem 0.25rem 0.25rem 0.5rem;
 					background-color: var(--main-color);
 					> svg {
