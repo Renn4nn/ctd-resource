@@ -3,7 +3,7 @@ import 'server-only'
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
 
-const api = axios.create({
+export const api = axios.create({
 	baseURL: process.env.API_BASE_URL,
 	headers: {
 		'Content-Type': 'application/json'
@@ -25,4 +25,10 @@ axiosRetry(api, {
 	shouldResetTimeout: true
 })
 
-export default api
+export const langflow = axios.create({
+	baseURL: process.env.LANGFLOW_CHAT_FLOW_URL,
+	headers: {
+		'Content-Type': 'application/json',
+		'x-api-key': process.env.LANGFLOW_API_KEY
+	}
+})

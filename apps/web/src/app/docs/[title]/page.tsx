@@ -1,8 +1,8 @@
+import { apiRequest } from '@/lib/axios'
+import Document from '@/ui/components/document/Documents'
 import { RESOURCES } from '@repo/constants'
 import type { DocumentSchema } from '@repo/schemas'
 import { Suspense } from 'react'
-import { apiRequest } from '@/lib/api'
-import Document from '@/ui/components/document/Documents'
 
 export default async function DocPage({
 	params
