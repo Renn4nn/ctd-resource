@@ -1,4 +1,7 @@
-import { asyncApiTryCatch } from '@/lib/error'
+import type { DataType } from '@repo/schemas'
+import type { AxiosResponse } from 'axios'
+import { cacheTag } from 'next/cache'
+import { asyncApiTryCatch, asyncLangflowTryCatch } from '@/lib/error'
 import type {
 	ApiRequestParams,
 	ApiRequestReturn,
@@ -8,9 +11,6 @@ import type {
 	LangflowRequestParams,
 	LangflowRequestReturn
 } from '@/lib/types/axios'
-import type { DataType } from '@repo/schemas'
-import type { AxiosResponse } from 'axios'
-import { cacheTag } from 'next/cache'
 import { api, langflow } from './config'
 
 export async function axiosRequest<
@@ -33,7 +33,9 @@ export async function langflowRequest({
 		output_type: 'chat',
 		input_type: 'chat'
 	}
-	return axiosRequest({ instance: langflow, method: 'post', data })
+	return asyncLangflowTryCatch(
+		axiosRequest({ instance: langflow, method: 'post', data })
+	)
 }
 
 export async function apiRequest<

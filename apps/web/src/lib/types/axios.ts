@@ -50,4 +50,4 @@ export type LangflowRequestParams = {
 	input_value: string
 }
 
-export type LangflowRequestReturn = Promise<AxiosResponse<LangflowResponse>>
+export type LangflowRequestReturn = Promise<ApiResponse<LangflowResponse>>
