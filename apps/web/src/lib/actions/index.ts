@@ -2,7 +2,7 @@
 
 import type { DataType } from '@repo/schemas'
 import { updateTag } from 'next/cache'
-import { apiRequest } from '@/lib/api'
+import { apiRequest } from '@/lib/axios'
 import type { ApiActionParams, ApiActionReturn } from '@/lib/types/action'
 
 export async function apiAction<
