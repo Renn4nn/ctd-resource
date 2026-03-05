@@ -2,8 +2,13 @@
 
 import type { DataType } from '@repo/schemas'
 import { updateTag } from 'next/cache'
-import { apiRequest } from '@/lib/axios'
-import type { ApiActionParams, ApiActionReturn } from '@/lib/types/action'
+import { apiRequest, langflowRequest } from '@/lib/axios'
+import type {
+	ApiActionParams,
+	ApiActionReturn,
+	LangFlowActionParams,
+	LangFlowActionReturn
+} from '@/lib/types/action'
 
 export async function apiAction<
 	T extends DataType,
@@ -32,5 +37,30 @@ export async function apiAction<
 			})
 		actionReturn.data = apiRes.data
 	}
+	return actionReturn
+}
+
+export async function langflowAction({
+	successMessage,
+	formData
+}: LangFlowActionParams): Promise<LangFlowActionReturn> {
+	const actionReturn: LangFlowActionReturn = {
+		data: null,
+		message: successMessage
+	}
+
+	const input_value = formData.get('input_value')?.toString() || ''
+
+	const lfRes = await langflowRequest({ input_value })
+
+	if ('error' in lfRes) actionReturn.message = lfRes.error.message
+	if ('errors' in lfRes)
+		// biome-ignore lint/style/noNonNullAssertion: Just ignore Biome here
+		actionReturn.message = lfRes.errors[0]!.message
+
+	if ('data' in lfRes) {
+		actionReturn.data = lfRes.data.outputs.outputs[0] ?? null
+	}
+
 	return actionReturn
 }

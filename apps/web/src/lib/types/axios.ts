@@ -25,7 +25,7 @@ export type CachedApiRequestParams<T extends DataType = never> = {
 	tagsToCache: RESOURCES[]
 }
 
-type LangflowOutput = {
+export type LangflowOutput = {
 	results: {
 		message: {
 			data: {
