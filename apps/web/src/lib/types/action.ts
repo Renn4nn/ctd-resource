@@ -1,7 +1,6 @@
 import type { RESOURCES } from '@repo/constants'
 import type { DataType } from '@repo/schemas'
-import type { LangflowOutput } from '@/lib/types/axios'
-import type { ApiRequestParams } from './axios'
+import type { ApiRequestParams, LangflowPayload } from './axios'
 
 export type ApiActionParams<T extends DataType> = ApiRequestParams<T> & {
 	successMessage: string
@@ -20,5 +19,5 @@ export type LangFlowActionParams = {
 
 export type LangFlowActionReturn = {
 	message: string
-	data: LangflowOutput | null
+	data: LangflowPayload | null
 }

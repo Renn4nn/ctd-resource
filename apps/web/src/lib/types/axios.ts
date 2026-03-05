@@ -25,13 +25,15 @@ export type CachedApiRequestParams<T extends DataType = never> = {
 	tagsToCache: RESOURCES[]
 }
 
+export type LangflowPayload = {
+	timestamp: string
+	text: string
+}
+
 export type LangflowOutput = {
 	results: {
 		message: {
-			data: {
-				timestamp: string
-				text: string
-			}
+			data: LangflowPayload
 		}
 	}
 }
@@ -43,7 +45,7 @@ export type LangflowResponse = {
 			input_value: string
 		}
 		outputs: LangflowOutput[]
-	}
+	}[]
 }
 
 export type LangflowRequestParams = {
