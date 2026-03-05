@@ -1,10 +1,26 @@
 import styles from '../chat-widget.module.css'
 import { Robot2Svg } from './svgs'
 
-export function ChatWidgetBody() {
+export type ChatWidgetMessage = {
+	key: string | number
+	sender: 'bot' | 'user'
+	children: React.ReactNode
+}
+
+type ChatWidgetBodyProps = {
+	messages: ChatWidgetMessage[]
+}
+
+export function ChatWidgetBody({ messages }: ChatWidgetBodyProps) {
 	return (
 		<div className={styles.body}>
-			<ChatWidgetMessage sender="bot">
+			{messages.map((msg) => (
+				<ChatWidgetMessage key={msg.key} sender={msg.sender}>
+					{msg.children}
+				</ChatWidgetMessage>
+			))}
+
+			{/* <ChatWidgetMessage sender="bot">
 				Hey there! <br /> How can I help you today?
 			</ChatWidgetMessage>
 			<ChatWidgetMessage sender="user">
@@ -12,14 +28,9 @@ export function ChatWidgetBody() {
 			</ChatWidgetMessage>
 			<ChatWidgetMessage sender="bot">
 				<ThinkingIndicator />
-			</ChatWidgetMessage>
+			</ChatWidgetMessage> */}
 		</div>
 	)
-}
-
-type ChatWidgetMessage = {
-	sender: 'bot' | 'user'
-	children: React.ReactNode
 }
 
 function ChatWidgetMessage({ children, sender }: ChatWidgetMessage) {
