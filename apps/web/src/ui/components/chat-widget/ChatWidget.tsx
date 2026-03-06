@@ -32,7 +32,7 @@ export default function ChatWidget({
 		<div className={`${styles.popup} ${className}`}>
 			<ChatWidgetHeader />
 			<ChatWidgetBody messages={messages} />
-			<ChatWidgetFooter handleOnClick={addMessage} {...props} />
+			<ChatWidgetFooter addMessage={addMessage} {...props} />
 		</div>
 	)
 }

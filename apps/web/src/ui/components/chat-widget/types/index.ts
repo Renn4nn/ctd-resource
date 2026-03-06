@@ -1,3 +1,4 @@
+import type { LangFlowActionReturn } from '@/lib/types/action'
 import type { SVGProps } from 'react'
 
 export type { SVGProps }
@@ -18,11 +19,14 @@ export type ChatWidgetBodyProps = {
 }
 
 export type ChatWidgetFooterProps = {
-	formAction: (successMessage: string, formData: FormData) => Promise<void>
-	handleOnClick: (newMessage: ChatWidgetMessageProps) => void
+	formAction: (
+		successMessage: string,
+		formData: FormData
+	) => Promise<LangFlowActionReturn>
+	addMessage: (newMessage: ChatWidgetMessageProps) => void
 	successMessage: string
 }
 
-export type ChatWidgetProps = Omit<ChatWidgetFooterProps, 'handleOnClick'> & {
+export type ChatWidgetProps = Omit<ChatWidgetFooterProps, 'addMessage'> & {
 	className?: string
 }

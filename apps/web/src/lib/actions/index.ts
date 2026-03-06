@@ -43,7 +43,7 @@ export async function apiAction<
 export async function langflowAction(
 	successMessage: LangFlowActionParams['successMessage'],
 	formData: LangFlowActionParams['formData']
-): Promise<void> {
+): Promise<LangFlowActionReturn> {
 	const actionReturn: LangFlowActionReturn = {
 		data: null,
 		message: successMessage
@@ -63,7 +63,5 @@ export async function langflowAction(
 			lfRes.data.outputs[0]?.outputs[0]?.results.message.data ?? null
 	}
 
-	console.log({ input_value, actionReturn })
-
-	// return actionReturn
+	return actionReturn
 }

@@ -1,20 +1,38 @@
 import { useRef } from 'react'
 import styles from '../chat-widget.module.css'
-import type { ChatWidgetFooterProps } from '../types'
+import type { ChatWidgetFooterProps, ChatWidgetMessageProps } from '../types'
 import { AttachFileSvg, SendSvg } from './svgs'
 
 export function ChatWidgetFooter({
-	handleOnClick,
+	addMessage,
 	formAction,
 	successMessage
 }: ChatWidgetFooterProps) {
+	const input = useRef<HTMLTextAreaElement>(null)
 	const actionWithMsg = formAction.bind(null, successMessage)
 
-	const input = useRef<HTMLTextAreaElement>(null)
+	const handleAction = async (formData: FormData) => {
+		if (input.current) input.current.value = ''
+		const res = await actionWithMsg(formData)
+
+		const message: ChatWidgetMessageProps = {
+			key: Date.now(),
+			sender: 'bot',
+			children: <></>
+		}
+
+		if (res.data) {
+			message.children = res.data.text
+		} else {
+			message.children = res.message
+		}
+
+		addMessage(message)
+	}
 
 	return (
 		<div className={styles.footer}>
-			<form action={actionWithMsg} className={styles.form}>
+			<form action={handleAction} className={styles.form}>
 				<textarea
 					ref={input}
 					required
@@ -22,6 +40,19 @@ export function ChatWidgetFooter({
 					id="input_value"
 					placeholder="Message..."
 					className={styles.input}
+					onKeyDown={(e) => {
+						if (e.code === 'Enter' && !e.shiftKey) {
+							e.preventDefault()
+							if (input.current) {
+								addMessage({
+									key: Date.now(),
+									sender: 'user',
+									children: <>{input.current.value}</>
+								})
+							}
+							e.currentTarget.form?.requestSubmit()
+						}
+					}}
 				></textarea>
 				<div className={styles.controls}>
 					<button type="button" title="Anexar arquivo">
@@ -31,13 +62,15 @@ export function ChatWidgetFooter({
 						type="submit"
 						title="Enviar"
 						className={styles['submit-btn']}
-						onClick={() =>
-							handleOnClick({
-								key: Date.now(),
-								sender: 'user',
-								children: <>{input.current?.value || ''}</>
-							})
-						}
+						onClick={() => {
+							if (input.current) {
+								addMessage({
+									key: Date.now(),
+									sender: 'user',
+									children: <>{input.current.value}</>
+								})
+							}
+						}}
 					>
 						<SendSvg />
 					</button>
