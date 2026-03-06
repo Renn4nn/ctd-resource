@@ -1,13 +1,7 @@
 import { useRef } from 'react'
 import styles from '../chat-widget.module.css'
-import type { ChatWidgetMessage } from './ChatWidgetBody'
+import type { ChatWidgetFooterProps } from '../types'
 import { AttachFileSvg, SendSvg } from './svgs'
-
-export type ChatWidgetFooterProps = {
-	formAction: (successMessage: string, formData: FormData) => Promise<void>
-	handleOnClick: (newMessage: ChatWidgetMessage) => void
-	successMessage: string
-}
 
 export function ChatWidgetFooter({
 	handleOnClick,

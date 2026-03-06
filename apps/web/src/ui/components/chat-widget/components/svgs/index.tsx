@@ -1,9 +1,4 @@
-import type { SVGProps } from 'react'
-
-type SVGWrapperProps = SVGProps<SVGSVGElement> & {
-	title: string
-	children: SVGProps<SVGPathElement>
-}
+import type { SVGProps, SVGWrapperProps } from '../../types'
 
 function SVGWrapper({
 	children,

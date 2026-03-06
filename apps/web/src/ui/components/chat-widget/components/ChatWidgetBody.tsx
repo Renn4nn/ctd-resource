@@ -1,15 +1,6 @@
 import styles from '../chat-widget.module.css'
+import type { ChatWidgetBodyProps, ChatWidgetMessageProps } from '../types'
 import { Robot2Svg } from './svgs'
-
-export type ChatWidgetMessage = {
-	key: string | number
-	sender: 'bot' | 'user'
-	children: React.ReactNode
-}
-
-type ChatWidgetBodyProps = {
-	messages: ChatWidgetMessage[]
-}
 
 export function ChatWidgetBody({ messages }: ChatWidgetBodyProps) {
 	return (
@@ -33,7 +24,7 @@ export function ChatWidgetBody({ messages }: ChatWidgetBodyProps) {
 	)
 }
 
-function ChatWidgetMessage({ children, sender }: ChatWidgetMessage) {
+function ChatWidgetMessage({ children, sender }: ChatWidgetMessageProps) {
 	return (
 		<div className={`${styles.message} ${styles[sender]}`}>
 			{sender === 'bot' ? <Robot2Svg className={styles.avatar} /> : null}

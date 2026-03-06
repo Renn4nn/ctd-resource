@@ -1,21 +1,18 @@
 import { useState } from 'react'
 import styles from './chat-widget.module.css'
-import type { ChatWidgetFooterProps, ChatWidgetMessage } from './components'
+import type {} from './components'
 import {
 	ChatWidgetBody,
 	ChatWidgetFooter,
 	ChatWidgetHeader
 } from './components'
-
-type ChatWidgetProps = Omit<ChatWidgetFooterProps, 'handleOnClick'> & {
-	className?: string
-}
+import type { ChatWidgetMessageProps, ChatWidgetProps } from './types'
 
 export default function ChatWidget({
 	className = '',
 	...props
 }: ChatWidgetProps) {
-	const [messages, setMessages] = useState<ChatWidgetMessage[]>([
+	const [messages, setMessages] = useState<ChatWidgetMessageProps[]>([
 		{
 			key: Date.now(),
 			sender: 'bot',
@@ -27,7 +24,7 @@ export default function ChatWidget({
 		}
 	])
 
-	const addMessage = (newMessage: ChatWidgetMessage) => {
+	const addMessage = (newMessage: ChatWidgetMessageProps) => {
 		setMessages((messages) => [...messages, newMessage])
 	}
 
