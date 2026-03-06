@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import styles from '../chat-widget.module.css'
+import useAddUserMessageFactory from '../hooks/useAddUserMessageFactory'
 import type { ChatWidgetFooterProps, ChatWidgetMessageProps } from '../types'
 import { AttachFileSvg, SendSvg } from './svgs'
 
@@ -11,8 +12,11 @@ export function ChatWidgetFooter({
 	const input = useRef<HTMLTextAreaElement>(null)
 	const actionWithMsg = formAction.bind(null, successMessage)
 
+	const addUserMessage = useAddUserMessageFactory(input, addMessage)
+
 	const handleAction = async (formData: FormData) => {
 		if (input.current) input.current.value = ''
+
 		const res = await actionWithMsg(formData)
 
 		const message: ChatWidgetMessageProps = {
@@ -43,13 +47,7 @@ export function ChatWidgetFooter({
 					onKeyDown={(e) => {
 						if (e.code === 'Enter' && !e.shiftKey) {
 							e.preventDefault()
-							if (input.current) {
-								addMessage({
-									key: Date.now(),
-									sender: 'user',
-									children: <>{input.current.value}</>
-								})
-							}
+							addUserMessage()
 							e.currentTarget.form?.requestSubmit()
 						}
 					}}
@@ -62,15 +60,7 @@ export function ChatWidgetFooter({
 						type="submit"
 						title="Enviar"
 						className={styles['submit-btn']}
-						onClick={() => {
-							if (input.current) {
-								addMessage({
-									key: Date.now(),
-									sender: 'user',
-									children: <>{input.current.value}</>
-								})
-							}
-						}}
+						onClick={addUserMessage}
 					>
 						<SendSvg />
 					</button>
