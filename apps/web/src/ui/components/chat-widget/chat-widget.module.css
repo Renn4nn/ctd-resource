@@ -65,6 +65,7 @@
 		cursor: pointer;
 		transition: 0.2s ease;
 	}
+	> .close-btn:focus,
 	> .close-btn:hover {
 		background-color: var(--main-color-b20);
 	}
@@ -81,6 +82,10 @@
 
 	&::-webkit-scrollbar {
 		width: 0.6rem;
+	}
+
+	&:focus {
+		outline-color: var(--main-color);
 	}
 
 	> .message {
@@ -193,6 +198,7 @@
 					}
 				}
 
+				&:focus,
 				&:hover {
 					background-color: var(--bg-color-2-10);
 					&.submit-btn {
