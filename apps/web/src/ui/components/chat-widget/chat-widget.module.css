@@ -91,7 +91,11 @@
 		transition: 0.2s ease;
 
 		> svg {
+			--size: 2.2rem;
 			margin-top: 2px;
+			width: var(--size);
+			height: var(--size);
+			fill: #fff;
 		}
 	}
 	> .close-btn:focus,

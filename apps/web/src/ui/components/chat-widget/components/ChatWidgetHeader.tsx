@@ -15,7 +15,7 @@ export function ChatWidgetHeader({ chatToggler }: ChatWidgetHeaderProps) {
 				className={styles['close-btn']}
 				onClick={chatToggler}
 			>
-				<ArrowDownSvg width="2.2rem" height="2.2rem" fill="#fff" />
+				<ArrowDownSvg />
 			</button>
 		</div>
 	)
