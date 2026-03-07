@@ -79,6 +79,10 @@
 	overflow-y: auto;
 	flex-direction: column;
 
+	&::-webkit-scrollbar {
+		width: 0.6rem;
+	}
+
 	> .message {
 		display: flex;
 		gap: 11px;
@@ -130,7 +134,7 @@
 	bottom: 0;
 	width: 100%;
 	background-color: var(--bg-color);
-	padding: 15px 22px 20px;
+	padding: 0 1rem 0.8rem;
 
 	> .form {
 		display: flex;
@@ -162,19 +166,6 @@
 
 			&::-webkit-scrollbar {
 				width: 0.4rem;
-			}
-
-			&::-webkit-scrollbar-thumb {
-				background-color: color-mix(
-					in srgb,
-					var(--main-color-w20),
-					transparent 70%
-				);
-				border-color: transparent;
-			}
-
-			&::-webkit-scrollbar-track {
-				background: transparent;
 			}
 		}
 
@@ -210,6 +201,22 @@
 				}
 			}
 		}
+	}
+}
+
+.body,
+.footer > .form > .input {
+	&::-webkit-scrollbar-thumb {
+		background-color: color-mix(
+			in srgb,
+			var(--main-color-w20),
+			transparent 70%
+		);
+		border-color: transparent;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent;
 	}
 }
 
