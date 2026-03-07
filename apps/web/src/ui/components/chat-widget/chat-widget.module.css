@@ -20,7 +20,28 @@
 	);
 }
 
+.toggler {
+	all: unset;
+	background-color: var(--main-color);
+	padding: 0.6rem 0.5rem 0.4rem 0.5rem;
+	border-radius: 25;
+	cursor: pointer;
+
+	> svg {
+		--size: 1.7rem;
+		fill: white;
+		width: var(--size);
+		height: var(--size);
+	}
+
+	&:focus,
+	&:hover {
+		background-color: var(--main-color-b20);
+	}
+}
+
 .popup {
+	display: none;
 	position: relative;
 	background-color: var(--bg-color);
 	width: 420px;
@@ -29,6 +50,11 @@
 	box-shadow:
 		0 0 128px 0 rgba(0, 0, 0, 0.1),
 		0 32px 64px -48px rgba(0, 0, 0, 0.5);
+	margin-bottom: 1rem;
+
+	&.opened {
+		display: block;
+	}
 }
 
 .header {
@@ -36,7 +62,7 @@
 	align-items: center;
 	justify-content: space-between;
 	background-color: var(--main-color);
-	padding: 15px 15px 15px 22px;
+	padding: 0.95rem 0.95rem 0.95rem 1.38rem;
 	> .info {
 		display: flex;
 		align-items: center;
@@ -57,13 +83,16 @@
 	}
 	> .close-btn {
 		all: unset;
-		box-sizing: content-box;
 		border: none;
 		color: var(--bg-color);
 		border-radius: 50%;
 		background-color: none;
 		cursor: pointer;
 		transition: 0.2s ease;
+
+		> svg {
+			margin-top: 2px;
+		}
 	}
 	> .close-btn:focus,
 	> .close-btn:hover {

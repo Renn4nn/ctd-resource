@@ -14,6 +14,10 @@ export type ChatWidgetMessageProps = {
 	children: React.ReactNode
 }
 
+export type ChatWidgetHeaderProps = {
+	chatToggler: () => void
+}
+
 export type ChatWidgetBodyProps = {
 	messages: ChatWidgetMessageProps[]
 	bodyRef: RefObject<HTMLDivElement | null>
