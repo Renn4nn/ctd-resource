@@ -2,9 +2,9 @@ import styles from '../chat-widget.module.css'
 import type { ChatWidgetBodyProps, ChatWidgetMessageProps } from '../types'
 import { Robot2Svg } from './svgs'
 
-export function ChatWidgetBody({ messages }: ChatWidgetBodyProps) {
+export function ChatWidgetBody({ messages, bodyRef }: ChatWidgetBodyProps) {
 	return (
-		<div className={styles.body}>
+		<div ref={bodyRef} className={styles.body}>
 			{messages.map((msg) => (
 				<ChatWidgetMessage key={msg.key} sender={msg.sender}>
 					{msg.children}

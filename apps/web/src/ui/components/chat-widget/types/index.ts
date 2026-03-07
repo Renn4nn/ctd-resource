@@ -1,5 +1,5 @@
+import type { RefObject, SVGProps } from 'react'
 import type { LangFlowActionReturn } from '@/lib/types/action'
-import type { SVGProps } from 'react'
 
 export type { SVGProps }
 
@@ -16,6 +16,7 @@ export type ChatWidgetMessageProps = {
 
 export type ChatWidgetBodyProps = {
 	messages: ChatWidgetMessageProps[]
+	bodyRef: RefObject<HTMLDivElement | null>
 }
 
 export type ChatWidgetFooterProps = {

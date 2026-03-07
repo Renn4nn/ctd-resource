@@ -1,14 +1,14 @@
 'use client'
 
+import type { ApiResponse, DocumentSchema } from '@repo/schemas'
+import { Inter } from 'next/font/google'
+import { useState } from 'react'
 import { langflowAction } from '@/lib/actions'
 import ChatWidget from '@/ui/components/chat-widget/ChatWidget'
 import DocumentNav from '@/ui/components/document/DocumentNav'
 import Header from '@/ui/layout/Header'
 import Main from '@/ui/layout/Main'
 import SideNav from '@/ui/layout/SideNav'
-import type { ApiResponse, DocumentSchema } from '@repo/schemas'
-import { Inter } from 'next/font/google'
-import { useState } from 'react'
 
 type DocumentLayoutPageProps = {
 	children: React.ReactNode

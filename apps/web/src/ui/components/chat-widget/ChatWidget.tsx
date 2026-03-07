@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './chat-widget.module.css'
 import type {} from './components'
 import {
@@ -14,7 +14,7 @@ export default function ChatWidget({
 }: ChatWidgetProps) {
 	const [messages, setMessages] = useState<ChatWidgetMessageProps[]>([
 		{
-			key: Date.now(),
+			key: 'welcome-message',
 			sender: 'bot',
 			children: (
 				<>
@@ -24,6 +24,18 @@ export default function ChatWidget({
 		}
 	])
 
+	const bodyRef = useRef<HTMLDivElement>(null)
+
+	//biome-ignore lint/correctness/useExhaustiveDependencies: Just ignore by now
+	useEffect(() => {
+		if (bodyRef.current) {
+			bodyRef.current.scrollTo({
+				top: bodyRef.current.scrollHeight,
+				behavior: 'smooth'
+			})
+		}
+	}, [messages])
+
 	const addMessage = (newMessage: ChatWidgetMessageProps) => {
 		setMessages((messages) => [...messages, newMessage])
 	}
@@ -31,7 +43,7 @@ export default function ChatWidget({
 	return (
 		<div className={`${styles.popup} ${className}`}>
 			<ChatWidgetHeader />
-			<ChatWidgetBody messages={messages} />
+			<ChatWidgetBody bodyRef={bodyRef} messages={messages} />
 			<ChatWidgetFooter addMessage={addMessage} {...props} />
 		</div>
 	)
