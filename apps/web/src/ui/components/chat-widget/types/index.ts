@@ -33,15 +33,17 @@ export type ChatWidgetFooterProps = {
 	successMessage: string
 }
 
+type CSSPosition = {
+	top?: CSSProperties['top']
+	right?: CSSProperties['right']
+	bottom?: CSSProperties['bottom']
+	left?: CSSProperties['left']
+}
 export type ChatWidgetProps = Omit<ChatWidgetFooterProps, 'addMessage'> & {
 	attachFile?: boolean
 	initialMessage?: ChatWidgetMessageProps['children']
 	chatWindowClassName?: string
+	chatWindowPosition?: CSSPosition
 	toggleClassName?: string
-	togglePosition?: {
-		top?: CSSProperties['top']
-		right?: CSSProperties['right']
-		bottom?: CSSProperties['bottom']
-		left?: CSSProperties['left']
-	}
+	togglePosition?: CSSPosition
 }

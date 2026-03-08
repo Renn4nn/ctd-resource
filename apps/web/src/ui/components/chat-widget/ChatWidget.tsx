@@ -17,6 +17,10 @@ export default function ChatWidget({
 		bottom: '1rem',
 		right: '1rem'
 	},
+	chatWindowPosition = {
+		bottom: '1rem',
+		right: '1rem'
+	},
 	...props
 }: ChatWidgetProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -54,7 +58,7 @@ export default function ChatWidget({
 		<>
 			<div
 				className={`${chatWindowClassName} ${styles.popup} ${isOpen ? styles.opened : ''}`}
-				popover="manual"
+				style={chatWindowPosition}
 			>
 				<ChatWidgetHeader chatToggler={chatToggler} />
 				<ChatWidgetBody bodyRef={bodyRef} messages={messages} />
@@ -69,7 +73,6 @@ export default function ChatWidget({
 				title="Abrir chat"
 				className={`${styles.toggler} ${toggleClassName}`}
 				onClick={chatToggler}
-				popoverTarget={styles.popup}
 				style={togglePosition}
 			>
 				<ChatBubbleSvg />

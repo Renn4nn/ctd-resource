@@ -24,14 +24,12 @@
 
 .toggler {
 	all: unset;
-	position: absolute;
+	position: fixed;
 	z-index: var(--toggler-z-index);
 	background-color: var(--main-color);
 	padding: 0.6rem 0.5rem 0.4rem 0.5rem;
 	border-radius: 25;
 	cursor: pointer;
-
-	anchor-name: --chat-toggler;
 
 	> svg {
 		--size: 1.7rem;
@@ -47,9 +45,10 @@
 }
 
 .popup {
+	all: unset;
 	display: none;
 	position: fixed;
-	z-index: calc(var(--toggler-z-index) + 1);
+	z-index: calc(var(--toggler-z-index) + 50);
 	background-color: var(--bg-color);
 	width: 420px;
 	overflow: hidden;
@@ -57,10 +56,6 @@
 	box-shadow:
 		0 0 128px 0 rgba(0, 0, 0, 0.1),
 		0 32px 64px -48px rgba(0, 0, 0, 0.5);
-
-	position-anchor: --chat-toggler;
-	position-area: top left;
-	position-try-fallbacks: flip-inline, flip-block;
 
 	&.opened {
 		display: block;
