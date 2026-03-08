@@ -36,6 +36,11 @@ export default function DocumentLayoutPage({
 					chatWindowClassName={inter.className}
 					formAction={langflowAction}
 					successMessage="Deu certo!"
+					initialMessage={
+						<>
+							Olá! <br /> Como posso te ajudar hoje?
+						</>
+					}
 				/>
 				{children}
 			</Main>

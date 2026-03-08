@@ -10,6 +10,7 @@ import type { ChatWidgetMessageProps, ChatWidgetProps } from './types'
 
 export default function ChatWidget({
 	attachFile = false,
+	initialMessage,
 	chatWindowClassName = '',
 	toggleClassName = '',
 	togglePosition = {
@@ -19,17 +20,17 @@ export default function ChatWidget({
 	...props
 }: ChatWidgetProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
-	const [messages, setMessages] = useState<ChatWidgetMessageProps[]>([
-		{
-			key: 'welcome-message',
-			sender: 'bot',
-			children: (
-				<>
-					Olá! <br /> Como posso te ajudar hoje?
-				</>
-			)
-		}
-	])
+	const [messages, setMessages] = useState<ChatWidgetMessageProps[]>(
+		initialMessage
+			? [
+					{
+						key: 'first-message',
+						sender: 'bot',
+						children: initialMessage
+					}
+				]
+			: []
+	)
 
 	const bodyRef = useRef<HTMLDivElement>(null)
 

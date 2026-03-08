@@ -1,4 +1,4 @@
-import type { CSSProperties, RefObject, SVGProps } from 'react'
+import type { CSSProperties, ReactNode, RefObject, SVGProps } from 'react'
 import type { LangFlowActionReturn } from '@/lib/types/action'
 
 export type { SVGProps }
@@ -11,7 +11,7 @@ export type SVGWrapperProps = SVGProps<SVGSVGElement> & {
 export type ChatWidgetMessageProps = {
 	key: string | number
 	sender: 'bot' | 'user'
-	children: React.ReactNode
+	children: ReactNode
 }
 
 export type ChatWidgetHeaderProps = {
@@ -35,6 +35,7 @@ export type ChatWidgetFooterProps = {
 
 export type ChatWidgetProps = Omit<ChatWidgetFooterProps, 'addMessage'> & {
 	attachFile?: boolean
+	initialMessage?: ChatWidgetMessageProps['children']
 	chatWindowClassName?: string
 	toggleClassName?: string
 	togglePosition?: {
