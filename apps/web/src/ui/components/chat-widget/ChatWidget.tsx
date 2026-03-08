@@ -9,6 +9,7 @@ import { ChatBubbleSvg } from './components/svgs'
 import type { ChatWidgetMessageProps, ChatWidgetProps } from './types'
 
 export default function ChatWidget({
+	attachFile = false,
 	chatWindowClassName = '',
 	toggleClassName = '',
 	togglePosition = {
@@ -56,7 +57,11 @@ export default function ChatWidget({
 			>
 				<ChatWidgetHeader chatToggler={chatToggler} />
 				<ChatWidgetBody bodyRef={bodyRef} messages={messages} />
-				<ChatWidgetFooter addMessage={addMessage} {...props} />
+				<ChatWidgetFooter
+					attachFile={attachFile}
+					addMessage={addMessage}
+					{...props}
+				/>
 			</div>
 			<button
 				type="button"

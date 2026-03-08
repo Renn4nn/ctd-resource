@@ -24,6 +24,7 @@ export type ChatWidgetBodyProps = {
 }
 
 export type ChatWidgetFooterProps = {
+	attachFile?: boolean
 	formAction: (
 		successMessage: string,
 		formData: FormData
@@ -33,6 +34,7 @@ export type ChatWidgetFooterProps = {
 }
 
 export type ChatWidgetProps = Omit<ChatWidgetFooterProps, 'addMessage'> & {
+	attachFile?: boolean
 	chatWindowClassName?: string
 	toggleClassName?: string
 	togglePosition?: {

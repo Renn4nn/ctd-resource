@@ -5,6 +5,7 @@ import type { ChatWidgetFooterProps, ChatWidgetMessageProps } from '../types'
 import { AttachFileSvg, SendSvg } from './svgs'
 
 export function ChatWidgetFooter({
+	attachFile = false,
 	addMessage,
 	formAction,
 	successMessage
@@ -53,7 +54,11 @@ export function ChatWidgetFooter({
 					}}
 				></textarea>
 				<div className={styles.controls}>
-					<button type="button" title="Anexar arquivo">
+					<button
+						type="button"
+						title="Anexar arquivo"
+						style={{ display: `${attachFile ? 'inline-block' : 'none'}` }}
+					>
 						<AttachFileSvg />
 					</button>
 					<button
