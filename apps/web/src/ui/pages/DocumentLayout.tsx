@@ -33,7 +33,7 @@ export default function DocumentLayoutPage({
 			</SideNav>
 			<Main>
 				<ChatWidget
-					className={inter.className}
+					chatWindowClassName={inter.className}
 					formAction={langflowAction}
 					successMessage="Deu certo!"
 				/>

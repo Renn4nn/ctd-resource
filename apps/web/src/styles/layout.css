@@ -50,6 +50,7 @@ body {
 
 #web-main {
 	grid-area: main;
+	position: relative;
 }
 
 @media (max-width: 900px) {

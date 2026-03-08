@@ -1,4 +1,4 @@
-import type { RefObject, SVGProps } from 'react'
+import type { CSSProperties, RefObject, SVGProps } from 'react'
 import type { LangFlowActionReturn } from '@/lib/types/action'
 
 export type { SVGProps }
@@ -33,5 +33,12 @@ export type ChatWidgetFooterProps = {
 }
 
 export type ChatWidgetProps = Omit<ChatWidgetFooterProps, 'addMessage'> & {
-	className?: string
+	chatWindowClassName?: string
+	toggleClassName?: string
+	togglePosition?: {
+		top?: CSSProperties['top']
+		right?: CSSProperties['right']
+		bottom?: CSSProperties['bottom']
+		left?: CSSProperties['left']
+	}
 }

@@ -9,7 +9,12 @@ import { ChatBubbleSvg } from './components/svgs'
 import type { ChatWidgetMessageProps, ChatWidgetProps } from './types'
 
 export default function ChatWidget({
-	className = '',
+	chatWindowClassName = '',
+	toggleClassName = '',
+	togglePosition = {
+		bottom: '1rem',
+		right: '1rem'
+	},
 	...props
 }: ChatWidgetProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -44,20 +49,25 @@ export default function ChatWidget({
 	const chatToggler = () => setIsOpen((isOpen) => !isOpen)
 
 	return (
-		<div className={className}>
-			<div className={`${styles.popup} ${isOpen ? styles.opened : ''}`}>
+		<>
+			<div
+				className={`${chatWindowClassName} ${styles.popup} ${isOpen ? styles.opened : ''}`}
+				popover="manual"
+			>
 				<ChatWidgetHeader chatToggler={chatToggler} />
 				<ChatWidgetBody bodyRef={bodyRef} messages={messages} />
 				<ChatWidgetFooter addMessage={addMessage} {...props} />
 			</div>
 			<button
 				type="button"
-				title="Abrir"
-				className={styles.toggler}
+				title="Abrir chat"
+				className={`${styles.toggler} ${toggleClassName}`}
 				onClick={chatToggler}
+				popoverTarget={styles.popup}
+				style={togglePosition}
 			>
 				<ChatBubbleSvg />
 			</button>
-		</div>
+		</>
 	)
 }
