@@ -1,4 +1,8 @@
 import type {
+	LangFlowActionParams,
+	LangFlowActionReturn
+} from '@/lib/types/action'
+import type {
 	CSSProperties,
 	Dispatch,
 	ReactNode,
@@ -6,10 +10,6 @@ import type {
 	SetStateAction,
 	SVGProps
 } from 'react'
-import type {
-	LangFlowActionParams,
-	LangFlowActionReturn
-} from '@/lib/types/action'
 
 export type { SVGProps }
 
@@ -43,7 +43,6 @@ export type ChatWidgetFooterProps = {
 	) => Promise<LangFlowActionReturn>
 	addMessage: (newMessage: ChatWidgetMessageProps) => void
 	setIsPending: Dispatch<SetStateAction<boolean>>
-	successMessage: string
 }
 
 type CSSPosition = {

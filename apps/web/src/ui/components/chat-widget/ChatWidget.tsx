@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import styles from './chat-widget.module.css'
 import {
 	ChatWidgetBody,
@@ -50,9 +50,9 @@ export default function ChatWidget({
 		}
 	}, [messages])
 
-	const addMessage = (newMessage: ChatWidgetMessageProps) => {
+	const addMessage = useCallback((newMessage: ChatWidgetMessageProps) => {
 		setMessages((messages) => [...messages, newMessage])
-	}
+	}, [])
 
 	const chatToggler = () => setIsOpen((isOpen) => !isOpen)
 

@@ -8,40 +8,38 @@ export function ChatWidgetFooter({
 	attachFile = false,
 	addMessage,
 	formAction,
-	setIsPending,
-	successMessage
+	setIsPending
 }: ChatWidgetFooterProps) {
 	const input = useRef<HTMLTextAreaElement>(null)
 	const addUserMessage = useAddUserMessageFactory(input, addMessage)
 
 	const [state, act, pending] = useActionState(formAction, {
-		data: null,
-		message: successMessage
+		message: null,
+		timestamp: null
 	})
+
+	const handleAction = async (formData: FormData) => {
+		if (input.current) input.current.value = ''
+		act(formData)
+	}
 
 	useEffect(() => {
 		setIsPending(pending)
 	}, [pending, setIsPending])
 
-	const handleAction = async (formData: FormData) => {
-		if (input.current) input.current.value = ''
-
-		act(formData)
-
+	useEffect(() => {
 		const message: ChatWidgetMessageProps = {
 			key: Date.now(),
 			sender: 'bot',
 			children: <></>
 		}
-
-		if (state.data) {
-			message.children = state.data.text
-		} else {
+		if (state.message) {
 			message.children = state.message
 		}
-
-		addMessage(message)
-	}
+		if (state.timestamp) {
+			addMessage(message)
+		}
+	}, [state, addMessage])
 
 	return (
 		<div className={styles.footer}>

@@ -1,14 +1,14 @@
 'use client'
 
-import type { ApiResponse, DocumentSchema } from '@repo/schemas'
-import { Inter } from 'next/font/google'
-import { useState } from 'react'
 import { langflowAction } from '@/lib/actions'
 import ChatWidget from '@/ui/components/chat-widget/ChatWidget'
 import DocumentNav from '@/ui/components/document/DocumentNav'
 import Header from '@/ui/layout/Header'
 import Main from '@/ui/layout/Main'
 import SideNav from '@/ui/layout/SideNav'
+import type { ApiResponse, DocumentSchema } from '@repo/schemas'
+import { Inter } from 'next/font/google'
+import { useState } from 'react'
 
 type DocumentLayoutPageProps = {
 	children: React.ReactNode
@@ -38,7 +38,6 @@ export default function DocumentLayoutPage({
 					chatWindowPosition={{ bottom: '5.5rem', right: '2rem' }}
 					chatWindowClassName={inter.className}
 					formAction={langflowAction}
-					successMessage="Deu certo!"
 					initialMessage={
 						<>
 							Olá! <br /> Como posso te ajudar hoje?
