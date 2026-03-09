@@ -25,6 +25,7 @@ export default function ChatWidget({
 	...props
 }: ChatWidgetProps) {
 	const [isOpen, setIsOpen] = useState<boolean>(false)
+	const [isPending, setIsPending] = useState<boolean>(false)
 	const [messages, setMessages] = useState<ChatWidgetMessageProps[]>(
 		initialMessage
 			? [
@@ -62,8 +63,13 @@ export default function ChatWidget({
 				style={chatWindowPosition}
 			>
 				<ChatWidgetHeader title={title} chatToggler={chatToggler} />
-				<ChatWidgetBody bodyRef={bodyRef} messages={messages} />
+				<ChatWidgetBody
+					isPending={isPending}
+					bodyRef={bodyRef}
+					messages={messages}
+				/>
 				<ChatWidgetFooter
+					setIsPending={setIsPending}
 					attachFile={attachFile}
 					addMessage={addMessage}
 					{...props}

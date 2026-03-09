@@ -13,7 +13,7 @@ export type ApiActionReturn<T extends DataType> = {
 }
 
 export type LangFlowActionParams = {
-	successMessage: string
+	initialState: LangFlowActionReturn
 	formData: FormData
 }
 

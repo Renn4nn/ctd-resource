@@ -2,7 +2,11 @@ import styles from '../chat-widget.module.css'
 import type { ChatWidgetBodyProps, ChatWidgetMessageProps } from '../types'
 import { Robot2Svg } from './svgs'
 
-export function ChatWidgetBody({ messages, bodyRef }: ChatWidgetBodyProps) {
+export function ChatWidgetBody({
+	isPending,
+	messages,
+	bodyRef
+}: ChatWidgetBodyProps) {
 	return (
 		<div ref={bodyRef} className={styles.body}>
 			{messages.map((msg) => (
@@ -10,16 +14,11 @@ export function ChatWidgetBody({ messages, bodyRef }: ChatWidgetBodyProps) {
 					{msg.children}
 				</ChatWidgetMessage>
 			))}
-
-			{/* <ChatWidgetMessage sender="bot">
-				Hey there! <br /> How can I help you today?
-			</ChatWidgetMessage>
-			<ChatWidgetMessage sender="user">
-				Lorem, ipsum dolor sit amet consectetur adipisicing elit...
-			</ChatWidgetMessage>
-			<ChatWidgetMessage sender="bot">
-				<ThinkingIndicator />
-			</ChatWidgetMessage> */}
+			{isPending ? (
+				<ChatWidgetMessage key={'thinking-indicator'} sender={'bot'}>
+					<ThinkingIndicator />
+				</ChatWidgetMessage>
+			) : null}
 		</div>
 	)
 }

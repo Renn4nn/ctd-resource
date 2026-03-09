@@ -1,5 +1,7 @@
 'use server'
 
+import type { DataType } from '@repo/schemas'
+import { updateTag } from 'next/cache'
 import { apiRequest, langflowRequest } from '@/lib/axios'
 import type {
 	ApiActionParams,
@@ -7,8 +9,6 @@ import type {
 	LangFlowActionParams,
 	LangFlowActionReturn
 } from '@/lib/types/action'
-import type { DataType } from '@repo/schemas'
-import { updateTag } from 'next/cache'
 
 export async function apiAction<
 	T extends DataType,
@@ -41,13 +41,10 @@ export async function apiAction<
 }
 
 export async function langflowAction(
-	successMessage: LangFlowActionParams['successMessage'],
+	initialState: LangFlowActionReturn,
 	formData: LangFlowActionParams['formData']
 ): Promise<LangFlowActionReturn> {
-	const actionReturn: LangFlowActionReturn = {
-		data: null,
-		message: successMessage
-	}
+	const actionReturn: LangFlowActionReturn = initialState
 
 	const input_value = formData.get('input_value')?.toString() || ''
 

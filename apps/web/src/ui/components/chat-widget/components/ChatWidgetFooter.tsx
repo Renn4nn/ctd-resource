@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useActionState, useEffect, useRef } from 'react'
 import styles from '../chat-widget.module.css'
 import useAddUserMessageFactory from '../hooks/useAddUserMessageFactory'
 import type { ChatWidgetFooterProps, ChatWidgetMessageProps } from '../types'
@@ -8,17 +8,25 @@ export function ChatWidgetFooter({
 	attachFile = false,
 	addMessage,
 	formAction,
+	setIsPending,
 	successMessage
 }: ChatWidgetFooterProps) {
 	const input = useRef<HTMLTextAreaElement>(null)
-	const actionWithMsg = formAction.bind(null, successMessage)
-
 	const addUserMessage = useAddUserMessageFactory(input, addMessage)
+
+	const [state, act, pending] = useActionState(formAction, {
+		data: null,
+		message: successMessage
+	})
+
+	useEffect(() => {
+		setIsPending(pending)
+	}, [pending, setIsPending])
 
 	const handleAction = async (formData: FormData) => {
 		if (input.current) input.current.value = ''
 
-		const res = await actionWithMsg(formData)
+		act(formData)
 
 		const message: ChatWidgetMessageProps = {
 			key: Date.now(),
@@ -26,10 +34,10 @@ export function ChatWidgetFooter({
 			children: <></>
 		}
 
-		if (res.data) {
-			message.children = res.data.text
+		if (state.data) {
+			message.children = state.data.text
 		} else {
-			message.children = res.message
+			message.children = state.message
 		}
 
 		addMessage(message)
