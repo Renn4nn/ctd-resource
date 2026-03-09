@@ -15,6 +15,7 @@ export type ChatWidgetMessageProps = {
 }
 
 export type ChatWidgetHeaderProps = {
+	title?: string
 	chatToggler: () => void
 }
 
@@ -40,6 +41,7 @@ type CSSPosition = {
 	left?: CSSProperties['left']
 }
 export type ChatWidgetProps = Omit<ChatWidgetFooterProps, 'addMessage'> & {
+	title?: ChatWidgetHeaderProps['title']
 	attachFile?: boolean
 	initialMessage?: ChatWidgetMessageProps['children']
 	chatWindowClassName?: string

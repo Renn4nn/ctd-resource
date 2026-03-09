@@ -33,6 +33,7 @@ export default function DocumentLayoutPage({
 			</SideNav>
 			<Main>
 				<ChatWidget
+					title="Assistente Virtual"
 					togglePosition={{ bottom: '5.5rem', right: '2rem' }}
 					chatWindowPosition={{ bottom: '5.5rem', right: '2rem' }}
 					chatWindowClassName={inter.className}

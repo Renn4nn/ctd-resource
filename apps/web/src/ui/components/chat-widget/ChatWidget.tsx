@@ -9,6 +9,7 @@ import { ChatBubbleSvg } from './components/svgs'
 import type { ChatWidgetMessageProps, ChatWidgetProps } from './types'
 
 export default function ChatWidget({
+	title,
 	attachFile = false,
 	initialMessage,
 	chatWindowClassName = '',
@@ -60,7 +61,7 @@ export default function ChatWidget({
 				className={`${chatWindowClassName} ${styles.popup} ${isOpen ? styles.opened : ''}`}
 				style={chatWindowPosition}
 			>
-				<ChatWidgetHeader chatToggler={chatToggler} />
+				<ChatWidgetHeader title={title} chatToggler={chatToggler} />
 				<ChatWidgetBody bodyRef={bodyRef} messages={messages} />
 				<ChatWidgetFooter
 					attachFile={attachFile}
