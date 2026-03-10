@@ -98,6 +98,8 @@ Esse arquivo é utilizado para configurar a **Api**, veja o uso de cada variáve
 
 Esse arquivo é utilizado para configurar o **Web**, veja o uso de cada variável abaixo:
 - **API_BASE_URL**: Url base da **Api** onde será redirecionado as requisições. *⚠️ Essa variável é afetada pela `API_PORT`.*
+- **LANGFLOW_CHAT_FLOW_URL**: Url do fluxo do **LangFlow** que contém a lógica que alimenta o chat bot.
+- **LANGFLOW_API_KEY**: Chave de api que permite fazer requisições para o **LangFlow**.
 
 # 🚀 Instalação e Execução
 
